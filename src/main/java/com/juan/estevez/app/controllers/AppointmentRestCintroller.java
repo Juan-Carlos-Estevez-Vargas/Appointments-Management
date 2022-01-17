@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.juan.estevez.app.entities.Appointment;
 import com.juan.estevez.app.services.IAppointmentService;
 
@@ -28,7 +27,7 @@ public class AppointmentRestCintroller {
 	private IAppointmentService appointmentService;
 
 	/**
-	 * Método para retornan la lista de Citas o Appointments
+	 * Método para retornar la lista de Appointments
 	 * 
 	 * @return se retorna el resulset de la base de datos
 	 */
@@ -38,9 +37,9 @@ public class AppointmentRestCintroller {
 	}
 
 	/**
-	 * Método para insertar una Cita o Appointment
+	 * Método para insertar una Appointment
 	 * 
-	 * @param appointment
+	 * @param appointment a insertar
 	 * @return se retorna una entidad de respuesta con la Cita insertada y el status
 	 *         OK
 	 */
@@ -51,7 +50,7 @@ public class AppointmentRestCintroller {
 	}
 
 	/**
-	 * Método encargado de buscar una Cita o Appointment en específico
+	 * Método encargado de buscar una Appointment en específico
 	 * 
 	 * @param idAppointment por el cual se buscará la cita
 	 * @return se retorna la cita encontrada

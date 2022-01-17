@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * modificar registros en la base de datos usando JPA
  * 
  * 
- * @param <T>  = Tipo de repositorio a manejar (Doctor, Paciente, Appointment)
+ * @param <T>  = Tipo de repositorio a manejar (Doctor, Patient, Appointment)
  * @param <ID> = Tipo de dato de la llave primario del Repository a manejar
  * 
  * @author Juan Carlos Estevez Vargas
@@ -22,11 +22,11 @@ import org.springframework.stereotype.Service;
 public abstract class GenericServiceImp<T, ID extends Serializable> implements GenericServiceApi<T, ID> {
 
 	/**
-	 * Método abstracto para obtener el repositorio a manejar (Doctor, Paciente,
+	 * Método abstracto para obtener el repositorio a manejar (Doctor, Patient,
 	 * Appointment)
 	 * 
 	 * @return este método retorna las operaciones CRUD según el Repository (Doctor,
-	 *         Paciente, Appointment)
+	 *         Patient, Appointment)
 	 */
 	public abstract CrudRepository<T, ID> getRepository();
 

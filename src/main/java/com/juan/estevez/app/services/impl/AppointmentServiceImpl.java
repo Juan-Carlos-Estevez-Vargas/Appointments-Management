@@ -19,7 +19,7 @@ import com.juan.estevez.app.services.IAppointmentService;
  */
 
 @Service
-public class AppointmenrServiceImpl extends GenericServiceImp<Appointment, Integer> implements IAppointmentService {
+public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integer> implements IAppointmentService {
 
 	@Autowired
 	private IAppointmentRepository appointmentRepository;

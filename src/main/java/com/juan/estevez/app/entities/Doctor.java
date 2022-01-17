@@ -1,9 +1,7 @@
 package com.juan.estevez.app.entities;
 
 import javax.persistence.*;
-import lombok.Data;
 
-@Data
 @Entity
 @Table(name = "DOCTOR")
 public class Doctor {
