@@ -7,7 +7,7 @@ import java.util.List;
  * Interface general para manejar el API y el CRUD de manera genérica (Todos los
  * tipos)
  * 
- * @param <T>  = Tipo de implementación (Medico, Paciente, Cita)
+ * @param <T>  = Tipo de implementación (Doctor, Paciente, Appointment)
  * @param <ID> = Tipo de dato de la llave primaria de la tabla
  * 
  * @author Juan Carlos Estevez Vargas
@@ -17,9 +17,9 @@ public interface GenericServiceApi<T, ID extends Serializable> {
 	/**
 	 * Método genérico para guardar registros en la base de datos
 	 * 
-	 * @param entity = Tipo de entidad a guardar (Medico, Paciente, Cita)
-	 * @return retorna un tipo genérico según el Repository a trabajar (Medico,
-	 *         Paciente, Cita)
+	 * @param entity = Tipo de entidad a guardar (Doctor, Paciente, Appointment)
+	 * @return retorna un tipo genérico según el Repository a trabajar (Doctor,
+	 *         Paciente, Appointment)
 	 */
 	T save(T entity);
 
@@ -34,8 +34,8 @@ public interface GenericServiceApi<T, ID extends Serializable> {
 	 * Método genérico para obtener registros en la base de datos
 	 * 
 	 * @param id por el cual se buscará el registro
-	 * @return retorna un tipo genérico según el Repository a trabajar (Medico,
-	 *         Paciente, Cita)
+	 * @return retorna un tipo genérico según el Repository a trabajar (Doctor,
+	 *         Paciente, Appointment)
 	 */
 	T get(ID id);
 

@@ -1,7 +1,7 @@
 package com.juan.estevez.app.services;
 
 import com.juan.estevez.app.commons.GenericServiceApi;
-import com.juan.estevez.app.entities.Medico;
+import com.juan.estevez.app.entities.Doctor;
 
 /**
  * Interface para manipular los métodos CRUD del tipo Médico Esta interface
@@ -10,6 +10,6 @@ import com.juan.estevez.app.entities.Medico;
  * 
  * @author Juan Carlos Estevez Vargas
  */
-public interface IMedicoServiceApi extends GenericServiceApi<Medico, String> {
+public interface IDoctorService extends GenericServiceApi<Doctor, String> {
 
 }
