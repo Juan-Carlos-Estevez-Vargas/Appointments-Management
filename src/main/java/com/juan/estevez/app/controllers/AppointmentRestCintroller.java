@@ -82,11 +82,7 @@ public class AppointmentRestCintroller {
 	@GetMapping("/delete/{idAppointment}")
 	public ResponseEntity<Appointment> delete(@PathVariable int idAppointment) {
 		Appointment appointment = appointmentService.get(idAppointment);
-		if (appointment != null) {
-			appointmentService.delete(idAppointment);
-		} else {
-			return new ResponseEntity<Appointment>(appointment, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		appointmentService.delete(idAppointment);
 		return new ResponseEntity<Appointment>(appointment, HttpStatus.OK);
 	}
 }

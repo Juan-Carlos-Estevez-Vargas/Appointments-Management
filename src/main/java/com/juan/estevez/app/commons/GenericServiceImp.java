@@ -55,7 +55,10 @@ public abstract class GenericServiceImp<T, ID extends Serializable> implements G
 	 */
 	@Override
 	public void delete(ID id) {
-		getRepository().deleteById(id);
+		Optional<T> obj = getRepository().findById(id);
+		if (obj.isPresent()) {
+			getRepository().deleteById(id);
+		}
 	}
 
 	/**

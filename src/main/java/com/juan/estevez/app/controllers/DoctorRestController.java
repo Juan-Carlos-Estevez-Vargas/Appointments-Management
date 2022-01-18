@@ -81,11 +81,7 @@ public class DoctorRestController {
 	@GetMapping("/delete/{idDoctor}")
 	public ResponseEntity<Doctor> eliminar(@PathVariable String idDoctor) {
 		Doctor doctor = doctorService.get(idDoctor);
-		if (doctor != null) {
-			doctorService.delete(idDoctor);
-		} else {
-			return new ResponseEntity<Doctor>(doctor, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		doctorService.delete(idDoctor);
 		return new ResponseEntity<Doctor>(doctor, HttpStatus.OK);
 	}
 
