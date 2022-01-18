@@ -41,6 +41,16 @@ public abstract class GenericServiceImp<T, ID extends Serializable> implements G
 	}
 
 	/**
+	 * Método genérico para actualizar un registro según el repositorio a trabajar
+	 * 
+	 * @return retorna el registro actualizado
+	 */
+	@Override
+	public T update(T entity) {
+		return getRepository().save(entity);
+	}
+	
+	/**
 	 * Método genérico para borrar un registro según el repositorio a trabajar
 	 */
 	@Override

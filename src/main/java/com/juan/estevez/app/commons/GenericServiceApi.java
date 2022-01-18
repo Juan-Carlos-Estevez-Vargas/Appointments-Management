@@ -24,6 +24,15 @@ public interface GenericServiceApi<T, ID extends Serializable> {
 	T save(T entity);
 
 	/**
+	 * Método genérico para actualizar registros en la base de datos
+	 * 
+	 * @param entity = Tipo de entidad a actualizar (Doctor, Patient, Appointment)
+	 * @return retorna un tipo genérico segun el Repository a trabajar (Doctor,
+	 *         Patient, Appointment)
+	 */
+	T update(T entity);
+	
+	/**
 	 * Método genérico para eliminar registros en la base de datos
 	 * 
 	 * @param id por el cual se eliminará el registro

@@ -46,6 +46,18 @@ public class PatientRestController {
 		Patient obj = patientService.save(patient);
 		return new ResponseEntity<Patient>(obj, HttpStatus.OK);
 	}
+	
+	/**
+	 * Método para actualizar un paciente
+	 * 
+	 * @param paciente el cual se actualizará en la base de datos
+	 * @return se retorna una entidad con el entity de respuesta y un status
+	 */
+	@PostMapping("/update")
+	public ResponseEntity<Patient> update(@RequestBody Patient patient) {
+		Patient obj = patientService.update(patient);
+		return new ResponseEntity<Patient>(obj, HttpStatus.OK);
+	}
 
 	/**
 	 * Método encargado de buscar un paciente en específico

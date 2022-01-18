@@ -49,6 +49,19 @@ public class DoctorRestController {
 	}
 
 	/**
+	 * Método para actualizar un doctor
+	 * 
+	 * @param doctor el cual se actualizará en la base de datos
+	 * @return se retorna una entidad de respuesta con el doctor actualizado y un
+	 *         status de OK
+	 */
+	@PostMapping("/update")
+	public ResponseEntity<Doctor> update(@RequestBody Doctor doctor) {
+		Doctor obj = doctorService.update(doctor);
+		return new ResponseEntity<Doctor>(obj, HttpStatus.OK);
+	}
+	
+	/**
 	 * Método encargado de buscar un doctor en específico
 	 * 
 	 * @param idDoctor por el cual se buscará el doctor

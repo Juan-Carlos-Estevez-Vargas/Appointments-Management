@@ -50,6 +50,19 @@ public class AppointmentRestCintroller {
 	}
 
 	/**
+	 * Método para actualizar una Appointment
+	 * 
+	 * @param appointment a actualizar
+	 * @return se retorna una entidad de respuesta con la Cita actualizada y el
+	 *         status OK
+	 */
+	@PostMapping("/update")
+	public ResponseEntity<Appointment> update(@RequestBody Appointment appointment) {
+		Appointment obj = appointmentService.update(appointment);
+		return new ResponseEntity<Appointment>(obj, HttpStatus.OK);
+	}
+	
+	/**
 	 * Método encargado de buscar una Appointment en específico
 	 * 
 	 * @param idAppointment por el cual se buscará la cita
