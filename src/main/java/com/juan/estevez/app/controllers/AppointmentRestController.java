@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +22,8 @@ import com.juan.estevez.app.services.IAppointmentService;
  * @author Juan Carlos Estevez Vargas
  */
 @RestController
-@RequestMapping("/Appointment")
-public class AppointmentRestCintroller {
+@RequestMapping("/appointment")
+public class AppointmentRestController {
 
 	@Autowired
 	private IAppointmentService appointmentService;
@@ -31,7 +33,7 @@ public class AppointmentRestCintroller {
 	 * 
 	 * @return se retorna el resulset de la base de datos
 	 */
-	@GetMapping("/")
+	@GetMapping("/findAll")
 	public List<Appointment> listAppointments() {
 		return appointmentService.list();
 	}
@@ -43,7 +45,7 @@ public class AppointmentRestCintroller {
 	 * @return se retorna una entidad de respuesta con la Cita insertada y el status
 	 *         OK
 	 */
-	@PostMapping("/save")
+	@PostMapping
 	public ResponseEntity<Appointment> save(@RequestBody Appointment appointment) {
 		Appointment obj = appointmentService.save(appointment);
 		return new ResponseEntity<Appointment>(obj, HttpStatus.OK);
@@ -56,7 +58,7 @@ public class AppointmentRestCintroller {
 	 * @return se retorna una entidad de respuesta con la Cita actualizada y el
 	 *         status OK
 	 */
-	@PostMapping("/update")
+	@PutMapping
 	public ResponseEntity<Appointment> update(@RequestBody Appointment appointment) {
 		Appointment obj = appointmentService.update(appointment);
 		return new ResponseEntity<Appointment>(obj, HttpStatus.OK);
@@ -68,7 +70,7 @@ public class AppointmentRestCintroller {
 	 * @param idAppointment por el cual se buscará la cita
 	 * @return se retorna la cita encontrada
 	 */
-	@GetMapping("/search/{idAppointment}")
+	@GetMapping("/findById/{idAppointment}")
 	public Appointment searchAppointment(@PathVariable int idAppointment) {
 		return appointmentService.get(idAppointment);
 	}
@@ -79,7 +81,7 @@ public class AppointmentRestCintroller {
 	 * @param idAppointment por el cual se eliminará la Cita
 	 * @return se retorna la cita eliminada
 	 */
-	@GetMapping("/delete/{idAppointment}")
+	@DeleteMapping("{idAppointment}")
 	public ResponseEntity<Appointment> delete(@PathVariable int idAppointment) {
 		Appointment appointment = appointmentService.get(idAppointment);
 		appointmentService.delete(idAppointment);

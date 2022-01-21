@@ -4,9 +4,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +21,7 @@ import com.juan.estevez.app.services.IDoctorService;
  * @author Juan Carlos Estevez Vargas
  */
 @RestController
-@RequestMapping("/Doctors")
+@RequestMapping("/doctor")
 public class DoctorRestController {
 
 	@Autowired
@@ -30,7 +32,7 @@ public class DoctorRestController {
 	 * 
 	 * @return se retorna la lista de doctors
 	 */
-	@GetMapping("/")
+	@GetMapping("/findAll")
 	public List<Doctor> listDoctors() {
 		return doctorService.list();
 	}
@@ -42,7 +44,7 @@ public class DoctorRestController {
 	 * @return se retorna una entidad de respuesta con el doctor insertado y un
 	 *         status de OK
 	 */
-	@PostMapping("/save")
+	@PostMapping
 	public ResponseEntity<Doctor> save(@RequestBody Doctor doctor) {
 		Doctor obj = doctorService.save(doctor);
 		return new ResponseEntity<Doctor>(obj, HttpStatus.OK);
@@ -55,7 +57,7 @@ public class DoctorRestController {
 	 * @return se retorna una entidad de respuesta con el doctor actualizado y un
 	 *         status de OK
 	 */
-	@PostMapping("/update")
+	@PutMapping
 	public ResponseEntity<Doctor> update(@RequestBody Doctor doctor) {
 		Doctor obj = doctorService.update(doctor);
 		return new ResponseEntity<Doctor>(obj, HttpStatus.OK);
@@ -67,7 +69,7 @@ public class DoctorRestController {
 	 * @param idDoctor por el cual se buscará el doctor
 	 * @return se retorna el doctor encontrado
 	 */
-	@GetMapping("/search/{idDoctor}")
+	@GetMapping("/findById/{idDoctor}")
 	public Doctor searchDoctor(@PathVariable String idDoctor) {
 		return doctorService.get(idDoctor);
 	}
@@ -78,7 +80,7 @@ public class DoctorRestController {
 	 * @param idDoctor por el cual se eliminará el registro
 	 * @return se retorna el doctor eliminado
 	 */
-	@GetMapping("/delete/{idDoctor}")
+	@DeleteMapping("{idDoctor}")
 	public ResponseEntity<Doctor> eliminar(@PathVariable String idDoctor) {
 		Doctor doctor = doctorService.get(idDoctor);
 		doctorService.delete(idDoctor);

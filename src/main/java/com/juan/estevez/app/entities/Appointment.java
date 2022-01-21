@@ -15,12 +15,16 @@ public class Appointment implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "ID_APPOINTMENT")
 	private int idAppointment;
-	@Column
+	
+	@Column(name = "DOCTOR")
 	private String doctor;
-	@Column
+	
+	@Column(name = "PATIENT")
 	private String patient;
-	@Column
-	private String hour;
+	
+	@Column(name = "HOUR")
+	private Number hour;
 
 }

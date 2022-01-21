@@ -4,9 +4,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +21,7 @@ import com.juan.estevez.app.services.IPatientService;
  * @author Juan Carlos Estevez Vargas
  */
 @RestController
-@RequestMapping("/Patients")
+@RequestMapping("/patient")
 public class PatientRestController {
 
 	@Autowired
@@ -41,7 +43,7 @@ public class PatientRestController {
 	 * @param paciente el cual se guardará en la base de datos
 	 * @return se retorna una entidad con el entity de respuesta y un status
 	 */
-	@PostMapping("/save")
+	@PostMapping
 	public ResponseEntity<Patient> save(@RequestBody Patient patient) {
 		Patient obj = patientService.save(patient);
 		return new ResponseEntity<Patient>(obj, HttpStatus.OK);
@@ -53,7 +55,7 @@ public class PatientRestController {
 	 * @param paciente el cual se actualizará en la base de datos
 	 * @return se retorna una entidad con el entity de respuesta y un status
 	 */
-	@PostMapping("/update")
+	@PutMapping
 	public ResponseEntity<Patient> update(@RequestBody Patient patient) {
 		Patient obj = patientService.update(patient);
 		return new ResponseEntity<Patient>(obj, HttpStatus.OK);
@@ -65,7 +67,7 @@ public class PatientRestController {
 	 * @param idPaciente por el cual se buscará el paciente
 	 * @return se retorna el paciente encontrado
 	 */
-	@GetMapping("/search/{idPatient}")
+	@GetMapping("/findById/{idPatient}")
 	public Patient searchPatient(@PathVariable String idPatient) {
 		return patientService.get(idPatient);
 	}
@@ -76,7 +78,7 @@ public class PatientRestController {
 	 * @param idPaciente por el cual se eliminará el paciente
 	 * @return se retorna el paciente eliminado
 	 */
-	@GetMapping("/delete/{idPatient}")
+	@DeleteMapping("{idPatient}")
 	public ResponseEntity<Patient> delete(@PathVariable String idPatient) {
 		Patient patient = patientService.get(idPatient);
 		patientService.delete(idPatient);

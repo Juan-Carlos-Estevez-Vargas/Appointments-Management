@@ -15,16 +15,22 @@ public class Patient implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "ID_PATIENT")
 	private String idPatient;
-	@Column
+	
+	@Column(name = "NAME")
 	private String name;
-	@Column
+	
+	@Column(name = "DATE_OF_BIRTH")
 	private String dateOfBirth;
-	@Column
+	
+	@Column(name = "ID_TYPE")
 	private String idType;
-	@Column
+	
+	@Column(name = "EPS")
 	private String eps;
-	@Column
+	
+	@Column(name = "CLINIC_HISTORY")
 	private String clinicHistory;
 
 }

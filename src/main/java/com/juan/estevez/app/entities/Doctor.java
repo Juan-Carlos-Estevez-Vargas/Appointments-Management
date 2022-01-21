@@ -12,20 +12,28 @@ public class Doctor implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "ID_DOCTOR")
 	private String idDoctor;
-	@Column
+	
+	@Column(name = "DOSTORS_NAME")
 	private String doctorsName;
-	@Column
+	
+	@Column(name = "ID_TYPE")
 	private String idType;
-	@Column
+	
+	@Column(name = "NUMBER_PROFESSIONAL_CARD")
 	private String numberProfessionalCard;
-	@Column
+	
+	@Column(name = "YEARS_EXPERIENCE")
 	private double yearsExperience;
-	@Column
+	
+	@Column(name = "SPECIALTY")
 	private String specialty;
-	@Column
-	private String attentionStartTime;
-	@Column
-	private String attentionEndTime;
+	
+	@Column(name = "ATTENTION_START_TIME")
+	private Number attentionStartTime;
+	
+	@Column(name = "ATTENTION_END_TIME")
+	private Number attentionEndTime;
 
 }
