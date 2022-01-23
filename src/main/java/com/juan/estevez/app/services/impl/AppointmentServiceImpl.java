@@ -1,15 +1,18 @@
 package com.juan.estevez.app.services.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
-
 import com.juan.estevez.app.commons.GenericServiceImp;
 import com.juan.estevez.app.entities.Appointment;
 import com.juan.estevez.app.entities.Doctor;
+import com.juan.estevez.app.entities.Patient;
 import com.juan.estevez.app.repositories.IAppointmentRepository;
 import com.juan.estevez.app.services.IAppointmentService;
 import com.juan.estevez.app.services.IDoctorService;
+import com.juan.estevez.app.services.IPatientService;
 
 /**
  * Clase que hereda de la clase GenericServiceImp pasando como parámetro el tipo
@@ -24,7 +27,7 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 
 	@Autowired
 	private IAppointmentRepository appointmentRepository;
-	
+
 	@Autowired
 	private IDoctorService doctorService;
 
@@ -36,13 +39,28 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 	@Override
 	public Appointment save(Appointment entity) {
 		String idDoctor = entity.getDoctor();
-		Doctor doctor = doctorService.get(idDoctor);
-		
-			if (entity.getHour() >= doctor.getAttentionStartTime()
-					&& entity.getHour() <= doctor.getAttentionEndTime()) {
-				return super.save(entity);
+		String idPatient = entity.getPatient();
+		List<Appointment> appointments = (List<Appointment>) appointmentRepository.findAll();
+
+		for (Appointment app : appointments) {
+			if (app.getDoctor().equals(idDoctor)&& app.getPatient().equals(idPatient)) {
+				return null;
 			}
-		
+		}
+		return verify(entity);
+	}
+
+	@Override
+	public Appointment update(Appointment entity) {
+		return verify(entity);
+	}
+
+	public Appointment verify(Appointment entity) {
+		String idDoctor = entity.getDoctor();
+		Doctor doctor = doctorService.get(idDoctor);
+		if (entity.getHour() >= doctor.getAttentionStartTime() && entity.getHour() <= doctor.getAttentionEndTime()) {
+			return super.save(entity);
+		}
 		return null;
 	}
 }
