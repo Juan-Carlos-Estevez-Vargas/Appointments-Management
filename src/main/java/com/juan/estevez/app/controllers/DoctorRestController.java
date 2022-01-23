@@ -16,9 +16,9 @@ import com.juan.estevez.app.entities.Doctor;
 import com.juan.estevez.app.services.IDoctorService;
 
 /**
- * Controlador REST de la entidad Doctor
+ * Controlador REST de la entidad Doctor.
  * 
- * @author Juan Carlos Estevez Vargas
+ * @author Juan Carlos Estevez Vargas.
  */
 @RestController
 @RequestMapping("/doctor")
@@ -28,9 +28,9 @@ public class DoctorRestController {
 	private IDoctorService doctorService;
 
 	/**
-	 * Método para retornan la lista de doctors
+	 * Encargado de mostrar la lista de Doctors existentes en la base de datos.
 	 * 
-	 * @return se retorna la lista de doctors
+	 * @return Resulset con los Appointments obtenidos de la base de datos.
 	 */
 	@GetMapping("/findAll")
 	public List<Doctor> listDoctors() {
@@ -38,11 +38,11 @@ public class DoctorRestController {
 	}
 
 	/**
-	 * Método para insertar un doctor
+	 * Se encarga de insertar un Doctor en la base de datos.
 	 * 
-	 * @param doctor el cual se insertará a la base de datos
-	 * @return se retorna una entidad de respuesta con el doctor insertado y un
-	 *         status de OK
+	 * @param doctor a insertar en la base de datos.
+	 * @return Una entidad que contiene el Doctor guardado y un status de la
+	 *         respuesta HTTP.
 	 */
 	@PostMapping
 	public ResponseEntity<Doctor> save(@RequestBody Doctor doctor) {
@@ -51,23 +51,23 @@ public class DoctorRestController {
 	}
 
 	/**
-	 * Método para actualizar un doctor
+	 * Se encarga de actualizar un Doctor en la base de datos.
 	 * 
-	 * @param doctor el cual se actualizará en la base de datos
-	 * @return se retorna una entidad de respuesta con el doctor actualizado y un
-	 *         status de OK
+	 * @param doctor a actualizar en la base de datos.
+	 * @return Una entidad de respuesta que contiene el Doctor actualizado y un
+	 *         status de la respuesta HTTP.
 	 */
 	@PutMapping
 	public ResponseEntity<Doctor> update(@RequestBody Doctor doctor) {
 		Doctor obj = doctorService.update(doctor);
 		return new ResponseEntity<Doctor>(obj, HttpStatus.OK);
 	}
-	
+
 	/**
-	 * Método encargado de buscar un doctor en específico
+	 * Busca un Doctor en específico parametrizado por su id.
 	 * 
-	 * @param idDoctor por el cual se buscará el doctor
-	 * @return se retorna el doctor encontrado
+	 * @param idDoctor por el cual se buscará el mèdico en la base de datos.
+	 * @return Un mèdico encontrado y encapsulado en una estructura de tipo Doctor.
 	 */
 	@GetMapping("/findById/{idDoctor}")
 	public Doctor searchDoctor(@PathVariable String idDoctor) {
@@ -75,13 +75,13 @@ public class DoctorRestController {
 	}
 
 	/**
-	 * Método para eliminar un doctor
+	 * Elimina un Doctor de la base de datos.
 	 * 
-	 * @param idDoctor por el cual se eliminará el registro
-	 * @return se retorna el doctor eliminado
+	 * @param idDoctor por el cual se eliminará el resgistro.
+	 * @return Estructura de tipo Doctor con el mèdico eliminado.
 	 */
 	@DeleteMapping("{idDoctor}")
-	public ResponseEntity<Doctor> eliminar(@PathVariable String idDoctor) {
+	public ResponseEntity<Doctor> delete(@PathVariable String idDoctor) {
 		Doctor doctor = doctorService.get(idDoctor);
 		doctorService.delete(idDoctor);
 		return new ResponseEntity<Doctor>(doctor, HttpStatus.OK);

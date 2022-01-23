@@ -12,9 +12,9 @@ import com.juan.estevez.app.services.IPatientService;
  * Clase que hereda de la clase GenericServiceImp pasando como parámetro el tipo
  * de dato Patient y el tipo de dato de su llave primaria, la clase además
  * implementa la interface IPatientService la cual se encarga de generar los
- * métodos CRUD para un Paciente
+ * métodos CRUD para un Paciente.
  * 
- * @author Juan Carlos Estevez Vargas
+ * @author Juan Carlos Estevez Vargas.
  */
 @Service
 public class PatientServiceImpl extends GenericServiceImp<Patient, String> implements IPatientService {

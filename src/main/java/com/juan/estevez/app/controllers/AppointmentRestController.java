@@ -1,7 +1,6 @@
 package com.juan.estevez.app.controllers;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +16,9 @@ import com.juan.estevez.app.entities.Appointment;
 import com.juan.estevez.app.services.IAppointmentService;
 
 /**
- * Controlador REST de la entidad Appointment
+ * Controlador REST de la entidad Appointment.
  * 
- * @author Juan Carlos Estevez Vargas
+ * @author Juan Carlos Estevez Vargas.
  */
 @RestController
 @RequestMapping("/appointment")
@@ -29,9 +28,9 @@ public class AppointmentRestController {
 	private IAppointmentService appointmentService;
 
 	/**
-	 * Método para retornar la lista de Appointments
+	 * Encargado de mostrar la lista de Appointments existentes en la base de datos.
 	 * 
-	 * @return se retorna el resulset de la base de datos
+	 * @return Resulset con los Appointments obtenidos de la base de datos.
 	 */
 	@GetMapping("/findAll")
 	public List<Appointment> listAppointments() {
@@ -39,11 +38,11 @@ public class AppointmentRestController {
 	}
 
 	/**
-	 * Método para insertar una Appointment
+	 * Se encarga de insertar una Appointment.
 	 * 
-	 * @param appointment a insertar
-	 * @return se retorna una entidad de respuesta con la Cita insertada y el status
-	 *         OK
+	 * @param appointment a insertar en la base de datos.
+	 * @return Una entidad con el entity que contiene el Appointment guardado y un
+	 *         status de la respuesta HTTP.
 	 */
 	@PostMapping
 	public ResponseEntity<Appointment> save(@RequestBody Appointment appointment) {
@@ -52,23 +51,24 @@ public class AppointmentRestController {
 	}
 
 	/**
-	 * Método para actualizar una Appointment
+	 * Se encarga de actualizar una Appointment.
 	 * 
-	 * @param appointment a actualizar
-	 * @return se retorna una entidad de respuesta con la Cita actualizada y el
-	 *         status OK
+	 * @param appointment a actualizar en la base de datos.
+	 * @return Una entidad de respuesta que contiene el Appointment actualizado y un
+	 *         status de la respuesta HTTP.
 	 */
 	@PutMapping
 	public ResponseEntity<Appointment> update(@RequestBody Appointment appointment) {
 		Appointment obj = appointmentService.update(appointment);
 		return new ResponseEntity<Appointment>(obj, HttpStatus.OK);
 	}
-	
+
 	/**
-	 * Método encargado de buscar una Appointment en específico
+	 * Busca una Appointment en específico parametrizada por su id.
 	 * 
-	 * @param idAppointment por el cual se buscará la cita
-	 * @return se retorna la cita encontrada
+	 * @param idAppointment por el cual se buscará la cita en la base de datos.
+	 * @return Una cita encontrada y encapsulada en una estructura de tipo
+	 *         Appointment.
 	 */
 	@GetMapping("/findById/{idAppointment}")
 	public Appointment searchAppointment(@PathVariable int idAppointment) {
@@ -76,10 +76,10 @@ public class AppointmentRestController {
 	}
 
 	/**
-	 * Método para eliminar una Cita
+	 * Elimina una Cita de la base de datos.
 	 * 
-	 * @param idAppointment por el cual se eliminará la Cita
-	 * @return se retorna la cita eliminada
+	 * @param idAppointment por el cual se eliminará la Cita.
+	 * @return Estructura de tipo Appointment con la cita eliminada.
 	 */
 	@DeleteMapping("{idAppointment}")
 	public ResponseEntity<Appointment> delete(@PathVariable int idAppointment) {

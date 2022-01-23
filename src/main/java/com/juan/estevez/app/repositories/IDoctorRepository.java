@@ -5,10 +5,9 @@ import com.juan.estevez.app.entities.Doctor;
 
 /**
  * Interface para manejar el repositorio CRUD con JPA del tipo Doctor y el ID
- * String
+ * String.
  * 
- * @author Juan Carlos Estevez Vargas
+ * @author Juan Carlos Estevez Vargas.
  */
 public interface IDoctorRepository extends CrudRepository<Doctor, String> {
-
 }

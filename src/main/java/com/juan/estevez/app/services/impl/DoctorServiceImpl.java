@@ -12,9 +12,9 @@ import com.juan.estevez.app.services.IDoctorService;
  * Clase que hereda de la clase GenericServiceImp pasando como parámetro el tipo
  * de dato Doctor y el tipo de dato de su llave primaria, la clase además
  * implementa la interface IDoctorService la cual se encarga de generar los
- * métodos CRUD para un Doctor
+ * métodos CRUD para un Doctor.
  * 
- * @author Juan Carlos Estevez Vargas
+ * @author Juan Carlos Estevez Vargas.
  */
 
 @Service

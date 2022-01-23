@@ -16,9 +16,9 @@ import com.juan.estevez.app.entities.Patient;
 import com.juan.estevez.app.services.IPatientService;
 
 /**
- * Controlador REST de la entidad Paciente
+ * Controlador REST de la entidad Patient.
  * 
- * @author Juan Carlos Estevez Vargas
+ * @author Juan Carlos Estevez Vargas.
  */
 @RestController
 @RequestMapping("/patient")
@@ -28,9 +28,9 @@ public class PatientRestController {
 	private IPatientService patientService;
 
 	/**
-	 * Método para retornan la lista de pacientes
+	 * Encargado de mostrar la lista de pacientes existentes en la base de datos.
 	 * 
-	 * @return se retorna la lista de pacientes abstraida de la base de datos
+	 * @return Resulset con los pacientes obtenidos de la base de datos.
 	 */
 	@GetMapping("/")
 	public List<Patient> listPatients() {
@@ -38,22 +38,24 @@ public class PatientRestController {
 	}
 
 	/**
-	 * Método para insertar un paciente
+	 * Se encarga de insertar un Patient en la base de datos.
 	 * 
-	 * @param paciente el cual se guardará en la base de datos
-	 * @return se retorna una entidad con el entity de respuesta y un status
+	 * @param patient a insertar en la base de datos.
+	 * @return Una entidad que contiene el paciente guardado y un status de la
+	 *         respuesta HTTP.
 	 */
 	@PostMapping
 	public ResponseEntity<Patient> save(@RequestBody Patient patient) {
 		Patient obj = patientService.save(patient);
 		return new ResponseEntity<Patient>(obj, HttpStatus.OK);
 	}
-	
+
 	/**
-	 * Método para actualizar un paciente
+	 * Se encarga de actualizar un paciente en la base de datos.
 	 * 
-	 * @param paciente el cual se actualizará en la base de datos
-	 * @return se retorna una entidad con el entity de respuesta y un status
+	 * @param paciente a actualizar en la base de datos.
+	 * @return Una entidad de respuesta que contiene el paciente actualizado y un
+	 *         status de la respuesta HTTP.
 	 */
 	@PutMapping
 	public ResponseEntity<Patient> update(@RequestBody Patient patient) {
@@ -62,10 +64,11 @@ public class PatientRestController {
 	}
 
 	/**
-	 * Método encargado de buscar un paciente en específico
+	 * Busca un paciente en específico parametrizado por su id.
 	 * 
-	 * @param idPaciente por el cual se buscará el paciente
-	 * @return se retorna el paciente encontrado
+	 * @param idPatient por el cual se buscará el paciente en la base de datos.
+	 * @return Un paciente encontrado y encapsulado en una estructura de tipo
+	 *         Patient.
 	 */
 	@GetMapping("/findById/{idPatient}")
 	public Patient searchPatient(@PathVariable String idPatient) {
@@ -73,10 +76,10 @@ public class PatientRestController {
 	}
 
 	/**
-	 * Método para eliminar un paciente
+	 * Elimina un paciente de la base de datos.
 	 * 
-	 * @param idPaciente por el cual se eliminará el paciente
-	 * @return se retorna el paciente eliminado
+	 * @param idPatient por el cual se eliminará el registro.
+	 * @return Estructura de tipo Patient con el paciente eliminado.
 	 */
 	@DeleteMapping("{idPatient}")
 	public ResponseEntity<Patient> delete(@PathVariable String idPatient) {

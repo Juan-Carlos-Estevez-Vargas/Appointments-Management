@@ -9,31 +9,31 @@ import org.springframework.stereotype.Service;
 
 /**
  * Clase abstracta y genérica que implementa la interfaz mas genérica para
- * modificar registros en la base de datos usando JPA
+ * modificar registros en la base de datos usando JPA.
  * 
  * 
- * @param <T>  = Tipo de repositorio a manejar (Doctor, Patient, Appointment)
- * @param <ID> = Tipo de dato de la llave primario del Repository a manejar
+ * @param <T>  Tipo de repositorio a manejar (Doctor, Patient, Appointment).
+ * @param <ID> Tipo de dato de la llave primario del Repository a manejar.
  * 
- * @author Juan Carlos Estevez Vargas
+ * @author Juan Carlos Estevez Vargas.
  */
 
 @Service
 public abstract class GenericServiceImp<T, ID extends Serializable> implements GenericServiceApi<T, ID> {
 
 	/**
-	 * Método abstracto para obtener el repositorio a manejar (Doctor, Patient,
-	 * Appointment)
+	 * Se encarga de obtener el repositorio a manejar (Doctor, Patient, Appointment).
 	 * 
-	 * @return este método retorna las operaciones CRUD según el Repository (Doctor,
-	 *         Patient, Appointment)
+	 * @return Las operaciones CRUD según el Repository obtenido(Doctor, Patient,
+	 *         Appointment).
 	 */
 	public abstract CrudRepository<T, ID> getRepository();
 
 	/**
-	 * Método genérico para insertar un registro según el repositorio a trabajar
+	 * Se encarga de insertar un registro en la base de datos según el Repository
+	 * obtenido.
 	 * 
-	 * @return retorna el registro almacenado
+	 * @return Registro insertado en la base de datos.
 	 */
 	@Override
 	public T save(T entity) {
@@ -41,17 +41,19 @@ public abstract class GenericServiceImp<T, ID extends Serializable> implements G
 	}
 
 	/**
-	 * Método genérico para actualizar un registro según el repositorio a trabajar
+	 * Se encarga de actualizar un registro en la base de datos según el Repository
+	 * obtenido.
 	 * 
-	 * @return retorna el registro actualizado
+	 * @return Registro actualizado en la base de datos.
 	 */
 	@Override
 	public T update(T entity) {
 		return getRepository().save(entity);
 	}
-	
+
 	/**
-	 * Método genérico para borrar un registro según el repositorio a trabajar
+	 * Se encarga de borrar un registro en la base de datos según el Repository
+	 * obtenido.
 	 */
 	@Override
 	public void delete(ID id) {
@@ -62,9 +64,10 @@ public abstract class GenericServiceImp<T, ID extends Serializable> implements G
 	}
 
 	/**
-	 * Método genérico para obtener un registro según el repositorio a trabajar
+	 * Se encarga de obtener un registro de la base de datos según el Repository
+	 * obtenido.
 	 * 
-	 * @return retorna el registro obtenido
+	 * @return Registro encontrado en la base de datos.
 	 */
 	@Override
 	public T get(ID id) {
@@ -76,9 +79,10 @@ public abstract class GenericServiceImp<T, ID extends Serializable> implements G
 	}
 
 	/**
-	 * Método genérico para listar los registros según el repositorio a trabajar
+	 * Lista los registros almacenados en la base de datos según el Repository
+	 * obtenido.
 	 * 
-	 * @return retorna la lista de registros obtenida
+	 * @return Lista de registros obtenida de la base de datos.
 	 */
 	@Override
 	public List<T> list() {
