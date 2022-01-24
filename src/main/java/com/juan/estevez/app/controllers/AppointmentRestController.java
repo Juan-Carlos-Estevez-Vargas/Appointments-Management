@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.juan.estevez.app.dto.AppointmentDTO;
 import com.juan.estevez.app.entities.Appointment;
 import com.juan.estevez.app.services.IAppointmentService;
 
@@ -49,7 +51,12 @@ public class AppointmentRestController {
 	 *         status de la respuesta HTTP.
 	 */
 	@PostMapping
-	public ResponseEntity<Appointment> save(@RequestBody Appointment appointment) {
+	public ResponseEntity<Appointment> save(@RequestBody AppointmentDTO appointmentDto) {
+		Appointment appointment = new Appointment();
+		appointment.setIdAppointment(appointmentDto.getIdAppointment());
+		appointment.setDoctor(appointmentDto.getDoctor());
+		appointment.setPatient(appointmentDto.getPatient());
+		appointment.setHour(appointmentDto.getHour());
 		Appointment obj = appointmentService.save(appointment);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
@@ -62,7 +69,12 @@ public class AppointmentRestController {
 	 *         status de la respuesta HTTP.
 	 */
 	@PutMapping
-	public ResponseEntity<Appointment> update(@RequestBody Appointment appointment) {
+	public ResponseEntity<Appointment> update(@RequestBody AppointmentDTO appointmentDto) {
+		Appointment appointment = new Appointment();
+		appointment.setIdAppointment(appointmentDto.getIdAppointment());
+		appointment.setDoctor(appointmentDto.getDoctor());
+		appointment.setPatient(appointmentDto.getPatient());
+		appointment.setHour(appointmentDto.getHour());
 		Appointment obj = appointmentService.update(appointment);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}

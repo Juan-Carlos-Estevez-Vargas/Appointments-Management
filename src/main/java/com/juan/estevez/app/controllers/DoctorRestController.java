@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.juan.estevez.app.dto.DoctorDTO;
 import com.juan.estevez.app.entities.Doctor;
 import com.juan.estevez.app.services.IDoctorService;
 
@@ -49,7 +51,16 @@ public class DoctorRestController {
 	 *         respuesta HTTP.
 	 */
 	@PostMapping
-	public ResponseEntity<Doctor> save(@RequestBody Doctor doctor) {
+	public ResponseEntity<Doctor> save(@RequestBody DoctorDTO doctorDto) {
+		Doctor doctor = new Doctor();
+		doctor.setIdDoctor(doctorDto.getIdDoctor());
+		doctor.setDoctorsName(doctorDto.getDoctorsName());
+		doctor.setIdType(doctorDto.getIdType());
+		doctor.setNumberProfessionalCard(doctorDto.getNumberProfessionalCard());
+		doctor.setSpecialty(doctorDto.getSpecialty());
+		doctor.setYearsExperience(doctorDto.getYearsExperience());
+		doctor.setAttentionStartTime(doctorDto.getAttentionStartTime());
+		doctor.setAttentionEndTime(doctorDto.getAttentionEndTime());
 		Doctor obj = doctorService.save(doctor);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
@@ -62,7 +73,16 @@ public class DoctorRestController {
 	 *         status de la respuesta HTTP.
 	 */
 	@PutMapping
-	public ResponseEntity<Doctor> update(@RequestBody Doctor doctor) {
+	public ResponseEntity<Doctor> update(@RequestBody DoctorDTO doctorDto) {
+		Doctor doctor = new Doctor();
+		doctor.setIdDoctor(doctorDto.getIdDoctor());
+		doctor.setDoctorsName(doctorDto.getDoctorsName());
+		doctor.setIdType(doctorDto.getIdType());
+		doctor.setNumberProfessionalCard(doctorDto.getNumberProfessionalCard());
+		doctor.setSpecialty(doctorDto.getSpecialty());
+		doctor.setYearsExperience(doctorDto.getYearsExperience());
+		doctor.setAttentionStartTime(doctorDto.getAttentionStartTime());
+		doctor.setAttentionEndTime(doctorDto.getAttentionEndTime());
 		Doctor obj = doctorService.update(doctor);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
