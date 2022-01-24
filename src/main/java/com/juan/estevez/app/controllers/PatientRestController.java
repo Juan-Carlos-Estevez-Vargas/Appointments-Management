@@ -51,7 +51,7 @@ public class PatientRestController {
 	@PostMapping
 	public ResponseEntity<Patient> save(@RequestBody Patient patient) {
 		Patient obj = patientService.save(patient);
-		return new ResponseEntity<Patient>(obj, HttpStatus.OK);
+		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class PatientRestController {
 	@PutMapping
 	public ResponseEntity<Patient> update(@RequestBody Patient patient) {
 		Patient obj = patientService.update(patient);
-		return new ResponseEntity<Patient>(obj, HttpStatus.OK);
+		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 
 	/**
@@ -89,6 +89,6 @@ public class PatientRestController {
 	public ResponseEntity<Patient> delete(@PathVariable String idPatient) {
 		Patient patient = patientService.get(idPatient);
 		patientService.delete(idPatient);
-		return new ResponseEntity<Patient>(patient, HttpStatus.OK);
+		return new ResponseEntity<>(patient, HttpStatus.OK);
 	}
 }

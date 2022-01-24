@@ -8,11 +8,11 @@ import java.util.List;
  * tipos).
  * 
  * @param <T>  Tipo de implementación (Doctor, Patient, Appointment).
- * @param <ID> Tipo de dato de la llave primaria de la tabla.
+ * @param <L> Tipo de dato de la llave primaria de la tabla.
  * 
  * @author Juan Carlos Estevez Vargas.
  */
-public interface GenericServiceApi<T, ID extends Serializable> {
+public interface GenericServiceApi<T, L extends Serializable> {
 
 	/**
 	 * Se encarga de guardar registros en la base de datos.
@@ -37,7 +37,7 @@ public interface GenericServiceApi<T, ID extends Serializable> {
 	 * 
 	 * @param id por el cual se eliminará el registro.
 	 */
-	void delete(ID id);
+	void delete(L id);
 
 	/**
 	 * Se encarga de obtener registros en la base de datos parametrizados por un id
@@ -47,7 +47,7 @@ public interface GenericServiceApi<T, ID extends Serializable> {
 	 * @return Un tipo genérico según el Repository obtenido (Doctor, Patient,
 	 *         Appointment).
 	 */
-	T get(ID id);
+	T get(L id);
 
 	/**
 	 * Se encarga de listar registros en la base de datos.

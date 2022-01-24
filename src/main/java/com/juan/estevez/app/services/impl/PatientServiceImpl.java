@@ -23,7 +23,6 @@ public class PatientServiceImpl extends GenericServiceImp<Patient, String> imple
 		
 	@Autowired
 	public PatientServiceImpl(IPatientRepository patientRepository) {
-		super();
 		this.patientRepository = patientRepository;
 	}
 

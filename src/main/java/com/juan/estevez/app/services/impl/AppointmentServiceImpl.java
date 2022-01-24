@@ -1,6 +1,7 @@
 package com.juan.estevez.app.services.impl;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,6 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 	
 	@Autowired
 	public AppointmentServiceImpl(IAppointmentRepository appointmentRepository, IDoctorService doctorService) {
-		super();
 		this.appointmentRepository = appointmentRepository;
 		this.doctorService = doctorService;
 	}
@@ -50,6 +50,8 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 		String idDoctor = entity.getDoctor();
 		String idPatient = entity.getPatient();
 		List<Appointment> appointments = (List<Appointment>) appointmentRepository.findAll();
+		
+		//Stream<Appointment> appo = Stream.of(appointments).map():
 
 		for (Appointment app : appointments) {
 			if (app.getDoctor().equals(idDoctor) && app.getPatient().equals(idPatient)) {

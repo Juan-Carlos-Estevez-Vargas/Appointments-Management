@@ -51,7 +51,7 @@ public class AppointmentRestController {
 	@PostMapping
 	public ResponseEntity<Appointment> save(@RequestBody Appointment appointment) {
 		Appointment obj = appointmentService.save(appointment);
-		return new ResponseEntity<Appointment>(obj, HttpStatus.OK);
+		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class AppointmentRestController {
 	@PutMapping
 	public ResponseEntity<Appointment> update(@RequestBody Appointment appointment) {
 		Appointment obj = appointmentService.update(appointment);
-		return new ResponseEntity<Appointment>(obj, HttpStatus.OK);
+		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 
 	/**
@@ -89,6 +89,6 @@ public class AppointmentRestController {
 	public ResponseEntity<Appointment> delete(@PathVariable int idAppointment) {
 		Appointment appointment = appointmentService.get(idAppointment);
 		appointmentService.delete(idAppointment);
-		return new ResponseEntity<Appointment>(appointment, HttpStatus.OK);
+		return new ResponseEntity<>(appointment, HttpStatus.OK);
 	}
 }

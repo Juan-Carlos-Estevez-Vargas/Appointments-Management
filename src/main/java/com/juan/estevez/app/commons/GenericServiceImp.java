@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * 
  * 
  * @param <T>  Tipo de repositorio a manejar (Doctor, Patient, Appointment).
- * @param <ID> Tipo de dato de la llave primario del Repository a manejar.
+ * @param <L> Tipo de dato de la llave primario del Repository a manejar.
  * 
  * @author Juan Carlos Estevez Vargas.
  */
