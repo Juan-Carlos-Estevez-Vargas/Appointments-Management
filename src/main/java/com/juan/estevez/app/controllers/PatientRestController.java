@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.juan.estevez.app.dto.PatientDTO;
 import com.juan.estevez.app.entities.Patient;
 import com.juan.estevez.app.services.IPatientService;
@@ -51,15 +50,8 @@ public class PatientRestController {
 	 *         respuesta HTTP.
 	 */
 	@PostMapping
-	public ResponseEntity<Patient> save(@RequestBody PatientDTO patientDto) {
-		Patient patient = new Patient();
-		patient.setIdPatient(patientDto.getIdPatient());
-		patient.setName(patientDto.getName());
-		patient.setIdType(patientDto.getIdType());
-		patient.setEps(patientDto.getEps());
-		patient.setDateOfBirth(patientDto.getDateOfBirth());
-		patient.setClinicHistory(patientDto.getClinicHistory());
-		Patient obj = patientService.save(patient);
+	public ResponseEntity<PatientDTO> save(@RequestBody PatientDTO patientDto) {
+		PatientDTO obj = patientService.save(patientDto);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 
@@ -71,15 +63,8 @@ public class PatientRestController {
 	 *         status de la respuesta HTTP.
 	 */
 	@PutMapping
-	public ResponseEntity<Patient> update(@RequestBody PatientDTO patientDto) {
-		Patient patient = new Patient();
-		patient.setIdPatient(patientDto.getIdPatient());
-		patient.setName(patientDto.getName());
-		patient.setIdType(patientDto.getIdType());
-		patient.setEps(patientDto.getEps());
-		patient.setDateOfBirth(patientDto.getDateOfBirth());
-		patient.setClinicHistory(patientDto.getClinicHistory());
-		Patient obj = patientService.update(patient);
+	public ResponseEntity<PatientDTO> update(@RequestBody PatientDTO patientDto) {
+		PatientDTO obj = patientService.update(patientDto);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 

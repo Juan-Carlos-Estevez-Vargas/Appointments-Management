@@ -1,9 +1,11 @@
 package com.juan.estevez.app.services.impl;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import com.juan.estevez.app.commons.GenericServiceImp;
+import com.juan.estevez.app.dto.DoctorDTO;
 import com.juan.estevez.app.entities.Doctor;
 import com.juan.estevez.app.repositories.IDoctorRepository;
 import com.juan.estevez.app.services.IDoctorService;
@@ -19,12 +21,29 @@ import com.juan.estevez.app.services.IDoctorService;
 
 @Service
 public class DoctorServiceImpl extends GenericServiceImp<Doctor, String> implements IDoctorService {
-
-	private IDoctorRepository doctorRepository;
 	
+	private IDoctorRepository doctorRepository;
+	private ModelMapper modelMapper;
+
 	@Autowired
-	public DoctorServiceImpl(IDoctorRepository doctorRepository) {
+	public DoctorServiceImpl(IDoctorRepository doctorRepository, ModelMapper modelMapper) {
+		super();
 		this.doctorRepository = doctorRepository;
+		this.modelMapper = modelMapper;
+	}
+
+	@Override
+	public DoctorDTO save(DoctorDTO doctorDto) {
+		Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
+		doctor = doctorRepository.save(doctor);
+		return modelMapper.map(doctor, DoctorDTO.class);
+	}
+
+	@Override
+	public DoctorDTO update(DoctorDTO doctorDto) {
+		Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
+		doctor = doctorRepository.save(doctor);
+		return modelMapper.map(doctor, DoctorDTO.class);
 	}
 
 	@Override
