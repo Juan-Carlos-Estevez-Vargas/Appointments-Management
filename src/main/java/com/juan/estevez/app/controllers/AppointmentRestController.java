@@ -24,8 +24,12 @@ import com.juan.estevez.app.services.IAppointmentService;
 @RequestMapping("/appointment")
 public class AppointmentRestController {
 
-	@Autowired
 	private IAppointmentService appointmentService;
+	
+	@Autowired
+	public AppointmentRestController(IAppointmentService appointmentService) {
+		this.appointmentService = appointmentService;
+	}
 
 	/**
 	 * Encargado de mostrar la lista de Appointments existentes en la base de datos.

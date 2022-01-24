@@ -24,8 +24,12 @@ import com.juan.estevez.app.services.IDoctorService;
 @RequestMapping("/doctor")
 public class DoctorRestController {
 
-	@Autowired
 	private IDoctorService doctorService;
+	
+	@Autowired
+	public DoctorRestController(IDoctorService doctorService) {
+		this.doctorService = doctorService;
+	}
 
 	/**
 	 * Encargado de mostrar la lista de Doctors existentes en la base de datos.

@@ -20,8 +20,13 @@ import com.juan.estevez.app.services.IDoctorService;
 @Service
 public class DoctorServiceImpl extends GenericServiceImp<Doctor, String> implements IDoctorService {
 
-	@Autowired
 	private IDoctorRepository doctorRepository;
+	
+	@Autowired
+	public DoctorServiceImpl(IDoctorRepository doctorRepository) {
+		super();
+		this.doctorRepository = doctorRepository;
+	}
 
 	@Override
 	public CrudRepository<Doctor, String> getRepository() {

@@ -22,11 +22,15 @@ import com.juan.estevez.app.services.IDoctorService;
 @Service
 public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integer> implements IAppointmentService {
 
-	@Autowired
 	private IAppointmentRepository appointmentRepository;
-
-	@Autowired
 	private IDoctorService doctorService;
+	
+	@Autowired
+	public AppointmentServiceImpl(IAppointmentRepository appointmentRepository, IDoctorService doctorService) {
+		super();
+		this.appointmentRepository = appointmentRepository;
+		this.doctorService = doctorService;
+	}
 
 	@Override
 	public CrudRepository<Appointment, Integer> getRepository() {

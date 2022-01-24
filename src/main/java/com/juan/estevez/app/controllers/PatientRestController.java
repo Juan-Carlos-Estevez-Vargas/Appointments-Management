@@ -24,8 +24,12 @@ import com.juan.estevez.app.services.IPatientService;
 @RequestMapping("/patient")
 public class PatientRestController {
 
-	@Autowired
 	private IPatientService patientService;
+
+	@Autowired
+	public PatientRestController(IPatientService patientService) {
+		this.patientService = patientService;
+	}
 
 	/**
 	 * Encargado de mostrar la lista de pacientes existentes en la base de datos.

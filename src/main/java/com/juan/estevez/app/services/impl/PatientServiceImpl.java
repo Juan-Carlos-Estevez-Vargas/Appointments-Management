@@ -19,8 +19,13 @@ import com.juan.estevez.app.services.IPatientService;
 @Service
 public class PatientServiceImpl extends GenericServiceImp<Patient, String> implements IPatientService {
 
-	@Autowired
 	private IPatientRepository patientRepository;
+		
+	@Autowired
+	public PatientServiceImpl(IPatientRepository patientRepository) {
+		super();
+		this.patientRepository = patientRepository;
+	}
 
 	@Override
 	public CrudRepository<Patient, String> getRepository() {
