@@ -44,9 +44,7 @@ public class PatientServiceImpl extends GenericServiceImp<Patient, String> imple
 
 	@Override
 	public PatientDTO update(PatientDTO patientDto) {
-		Patient pacient = modelMapper.map(patientDto, Patient.class);
-		pacient = patientRepository.save(pacient);
-		return modelMapper.map(pacient, PatientDTO.class);
+		return save(patientDto);
 	}
 
 }

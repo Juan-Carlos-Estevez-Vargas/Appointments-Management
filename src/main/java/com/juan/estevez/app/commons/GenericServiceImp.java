@@ -87,7 +87,7 @@ public abstract class GenericServiceImp<T, ID extends Serializable> implements G
 	@Override
 	public List<T> list() {
 		List<T> returnList = new ArrayList<>();
-		getRepository().findAll().forEach(obj -> returnList.add(obj));
+		getRepository().findAll().forEach(returnList::add);
 		return returnList;
 	}
 

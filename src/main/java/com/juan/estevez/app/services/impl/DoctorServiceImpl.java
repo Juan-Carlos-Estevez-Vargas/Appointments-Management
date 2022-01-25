@@ -40,9 +40,7 @@ public class DoctorServiceImpl extends GenericServiceImp<Doctor, String> impleme
 
 	@Override
 	public DoctorDTO update(DoctorDTO doctorDto) {
-		Doctor doctor = modelMapper.map(doctorDto, Doctor.class);
-		doctor = doctorRepository.save(doctor);
-		return modelMapper.map(doctor, DoctorDTO.class);
+		return save(doctorDto);
 	}
 
 	@Override

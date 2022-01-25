@@ -50,8 +50,7 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 	 *         atención del médico, en caso contrario, se inserta el registro en la
 	 *         base de datos.
 	 */
-	public AppointmentDTO verify(AppointmentDTO entity) {
-		String idDoctor = entity.getDoctor();
+	public AppointmentDTO verify(AppointmentDTO entity, String idDoctor) {
 		Doctor doctor = doctorService.get(idDoctor);
 		Appointment appointment = modelMapper.map(entity, Appointment.class);
 		if (entity.getHour() >= doctor.getAttentionStartTime() && entity.getHour() <= doctor.getAttentionEndTime()) {
@@ -74,29 +73,17 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 		String idDoctor = appointmentDto.getDoctor();
 		String idPatient = appointmentDto.getPatient();
 		List<Appointment> appointments = (List<Appointment>) appointmentRepository.findAll();
-		//Appointment appointment = modelMapper.map(appointmentDto, Appointment.class);
-		
-		//Stream<Appointment> appo = Stream.of(appointments).map():
-
 		for (Appointment app : appointments) {
 			if (app.getDoctor().equals(idDoctor) && app.getPatient().equals(idPatient)) {
 				return null;
 			}
 		}
-		return verify(appointmentDto);
+		return verify(appointmentDto, idDoctor);
 	}
 
 	@Override
 	public AppointmentDTO update(AppointmentDTO appointmentDto) {
-		String idDoctor = appointmentDto.getDoctor();
-		String idPatient = appointmentDto.getPatient();
-		List<Appointment> appointments = (List<Appointment>) appointmentRepository.findAll();
-		for (Appointment app : appointments) {
-			if (app.getDoctor().equals(idDoctor) && app.getPatient().equals(idPatient)) {
-				return null;
-			}
-		}
-		return verify(appointmentDto);
+		return save(appointmentDto);
 	}
 
 }
