@@ -51,13 +51,8 @@ public class AppointmentRestController {
 	 *         status de la respuesta HTTP.
 	 */
 	@PostMapping
-	public ResponseEntity<Appointment> save(@RequestBody AppointmentDTO appointmentDto) {
-		Appointment appointment = new Appointment();
-		appointment.setIdAppointment(appointmentDto.getIdAppointment());
-		appointment.setDoctor(appointmentDto.getDoctor());
-		appointment.setPatient(appointmentDto.getPatient());
-		appointment.setHour(appointmentDto.getHour());
-		Appointment obj = appointmentService.save(appointment);
+	public ResponseEntity<AppointmentDTO> save(@RequestBody AppointmentDTO appointmentDto) {
+		AppointmentDTO obj = appointmentService.save(appointmentDto);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 
@@ -69,13 +64,8 @@ public class AppointmentRestController {
 	 *         status de la respuesta HTTP.
 	 */
 	@PutMapping
-	public ResponseEntity<Appointment> update(@RequestBody AppointmentDTO appointmentDto) {
-		Appointment appointment = new Appointment();
-		appointment.setIdAppointment(appointmentDto.getIdAppointment());
-		appointment.setDoctor(appointmentDto.getDoctor());
-		appointment.setPatient(appointmentDto.getPatient());
-		appointment.setHour(appointmentDto.getHour());
-		Appointment obj = appointmentService.update(appointment);
+	public ResponseEntity<AppointmentDTO> update(@RequestBody AppointmentDTO appointmentDto) {
+		AppointmentDTO obj = appointmentService.update(appointmentDto);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 

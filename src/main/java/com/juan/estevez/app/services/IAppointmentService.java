@@ -1,6 +1,7 @@
 package com.juan.estevez.app.services;
 
 import com.juan.estevez.app.commons.GenericServiceApi;
+import com.juan.estevez.app.dto.AppointmentDTO;
 import com.juan.estevez.app.entities.Appointment;
 
 /**
@@ -11,4 +12,9 @@ import com.juan.estevez.app.entities.Appointment;
  * @author Juan Carlos Estevez Vargas.
  */
 public interface IAppointmentService extends GenericServiceApi<Appointment, Integer>{
+
+	AppointmentDTO save(AppointmentDTO appointmentDto);
+
+	AppointmentDTO update(AppointmentDTO appointmentDto);
+
 }

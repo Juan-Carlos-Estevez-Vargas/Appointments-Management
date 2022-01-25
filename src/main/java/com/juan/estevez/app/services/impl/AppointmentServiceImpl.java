@@ -1,10 +1,13 @@
 package com.juan.estevez.app.services.impl;
 
 import java.util.List;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import com.juan.estevez.app.commons.GenericServiceImp;
+import com.juan.estevez.app.dto.AppointmentDTO;
 import com.juan.estevez.app.entities.Appointment;
 import com.juan.estevez.app.entities.Doctor;
 import com.juan.estevez.app.repositories.IAppointmentRepository;
@@ -24,6 +27,8 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 
 	private IAppointmentRepository appointmentRepository;
 	private IDoctorService doctorService;
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	@Autowired
 	public AppointmentServiceImpl(IAppointmentRepository appointmentRepository, IDoctorService doctorService) {
@@ -37,35 +42,6 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 	}
 
 	/**
-	 * Evalùa si ya existe una cita con el mismo doctor y paciente dentro de la base
-	 * de datos.
-	 * 
-	 * @param entity a evaluar.
-	 * @return null en caso de que ya exista la cita o llamado al métod verify() en
-	 *         caso de que no exista la cita.
-	 */
-	@Override
-	public Appointment save(Appointment entity) {
-		String idDoctor = entity.getDoctor();
-		String idPatient = entity.getPatient();
-		List<Appointment> appointments = (List<Appointment>) appointmentRepository.findAll();
-		
-		//Stream<Appointment> appo = Stream.of(appointments).map():
-
-		for (Appointment app : appointments) {
-			if (app.getDoctor().equals(idDoctor) && app.getPatient().equals(idPatient)) {
-				return null;
-			}
-		}
-		return verify(entity);
-	}
-
-	@Override
-	public Appointment update(Appointment entity) {
-		return verify(entity);
-	}
-
-	/**
 	 * Se encarga de comprobar si la cita a insertar está dentro del rango de
 	 * atención del médico.
 	 * 
@@ -74,12 +50,53 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 	 *         atención del médico, en caso contrario, se inserta el registro en la
 	 *         base de datos.
 	 */
-	public Appointment verify(Appointment entity) {
+	public AppointmentDTO verify(AppointmentDTO entity) {
 		String idDoctor = entity.getDoctor();
 		Doctor doctor = doctorService.get(idDoctor);
+		Appointment appointment = modelMapper.map(entity, Appointment.class);
 		if (entity.getHour() >= doctor.getAttentionStartTime() && entity.getHour() <= doctor.getAttentionEndTime()) {
-			return super.save(entity);
+			appointment = super.save(appointment);
+			return modelMapper.map(appointment, AppointmentDTO.class);
 		}
 		return null;
 	}
+
+	/**
+	 * Evalùa si ya existe una cita con el mismo doctor y paciente dentro de la base
+	 * de datos.
+	 * 
+	 * @param entity a evaluar.
+	 * @return null en caso de que ya exista la cita o llamado al métod verify() en
+	 *         caso de que no exista la cita.
+	 */
+	@Override
+	public AppointmentDTO save(AppointmentDTO appointmentDto) {	
+		String idDoctor = appointmentDto.getDoctor();
+		String idPatient = appointmentDto.getPatient();
+		List<Appointment> appointments = (List<Appointment>) appointmentRepository.findAll();
+		//Appointment appointment = modelMapper.map(appointmentDto, Appointment.class);
+		
+		//Stream<Appointment> appo = Stream.of(appointments).map():
+
+		for (Appointment app : appointments) {
+			if (app.getDoctor().equals(idDoctor) && app.getPatient().equals(idPatient)) {
+				return null;
+			}
+		}
+		return verify(appointmentDto);
+	}
+
+	@Override
+	public AppointmentDTO update(AppointmentDTO appointmentDto) {
+		String idDoctor = appointmentDto.getDoctor();
+		String idPatient = appointmentDto.getPatient();
+		List<Appointment> appointments = (List<Appointment>) appointmentRepository.findAll();
+		for (Appointment app : appointments) {
+			if (app.getDoctor().equals(idDoctor) && app.getPatient().equals(idPatient)) {
+				return null;
+			}
+		}
+		return verify(appointmentDto);
+	}
+
 }
