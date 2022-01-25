@@ -27,7 +27,6 @@ public class DoctorServiceImpl extends GenericServiceImp<Doctor, String> impleme
 
 	@Autowired
 	public DoctorServiceImpl(IDoctorRepository doctorRepository, ModelMapper modelMapper) {
-		super();
 		this.doctorRepository = doctorRepository;
 		this.modelMapper = modelMapper;
 	}

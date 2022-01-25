@@ -22,12 +22,12 @@ import com.juan.estevez.app.services.IPatientService;
 public class PatientServiceImpl extends GenericServiceImp<Patient, String> implements IPatientService {
 
 	private IPatientRepository patientRepository;
-	@Autowired
 	private ModelMapper modelMapper;
 		
 	@Autowired
-	public PatientServiceImpl(IPatientRepository patientRepository) {
+	public PatientServiceImpl(IPatientRepository patientRepository, ModelMapper modelMapper) {
 		this.patientRepository = patientRepository;
+		this.modelMapper = modelMapper;
 	}
 
 	@Override

@@ -27,13 +27,13 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 
 	private IAppointmentRepository appointmentRepository;
 	private IDoctorService doctorService;
-	@Autowired
 	private ModelMapper modelMapper;
 	
 	@Autowired
-	public AppointmentServiceImpl(IAppointmentRepository appointmentRepository, IDoctorService doctorService) {
+	public AppointmentServiceImpl(IAppointmentRepository appointmentRepository, IDoctorService doctorService, ModelMapper modelMapper) {
 		this.appointmentRepository = appointmentRepository;
 		this.doctorService = doctorService;
+		this.modelMapper = modelMapper;
 	}
 
 	@Override
