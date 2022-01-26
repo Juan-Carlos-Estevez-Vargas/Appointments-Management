@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public abstract class GenericServiceImp<T, ID extends Serializable> implements GenericServiceApi<T, ID> {
+public abstract class GenericServiceImp<T, L extends Serializable> implements GenericServiceApi<T, L> {
 
 	/**
 	 * Se encarga de obtener el repositorio a manejar (Doctor, Patient, Appointment).
@@ -27,7 +27,7 @@ public abstract class GenericServiceImp<T, ID extends Serializable> implements G
 	 * @return Las operaciones CRUD según el Repository obtenido(Doctor, Patient,
 	 *         Appointment).
 	 */
-	public abstract CrudRepository<T, ID> getRepository();
+	public abstract CrudRepository<T, L> getRepository();
 
 	/**
 	 * Se encarga de insertar un registro en la base de datos según el Repository
@@ -56,7 +56,7 @@ public abstract class GenericServiceImp<T, ID extends Serializable> implements G
 	 * obtenido.
 	 */
 	@Override
-	public void delete(ID id) {
+	public void delete(L id) {
 		Optional<T> obj = getRepository().findById(id);
 		if (obj.isPresent()) {
 			getRepository().deleteById(id);
@@ -70,7 +70,7 @@ public abstract class GenericServiceImp<T, ID extends Serializable> implements G
 	 * @return Registro encontrado en la base de datos.
 	 */
 	@Override
-	public T get(ID id) {
+	public T get(L id) {
 		Optional<T> obj = getRepository().findById(id);
 		if (obj.isPresent()) {
 			return obj.get();

@@ -1,7 +1,6 @@
 package com.juan.estevez.app.services.impl;
 
 import java.util.List;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -53,6 +52,7 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 	public AppointmentDTO verify(AppointmentDTO entity, String idDoctor) {
 		Doctor doctor = doctorService.get(idDoctor);
 		Appointment appointment = modelMapper.map(entity, Appointment.class);
+		
 		if (entity.getHour() >= doctor.getAttentionStartTime() && entity.getHour() <= doctor.getAttentionEndTime()) {
 			appointment = super.save(appointment);
 			return modelMapper.map(appointment, AppointmentDTO.class);
@@ -73,6 +73,7 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 		String idDoctor = appointmentDto.getDoctor();
 		String idPatient = appointmentDto.getPatient();
 		List<Appointment> appointments = (List<Appointment>) appointmentRepository.findAll();
+		
 		for (Appointment app : appointments) {
 			if (app.getDoctor().equals(idDoctor) && app.getPatient().equals(idPatient)) {
 				return null;
