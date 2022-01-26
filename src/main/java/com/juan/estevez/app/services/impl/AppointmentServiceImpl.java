@@ -27,9 +27,10 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 	private IAppointmentRepository appointmentRepository;
 	private IDoctorService doctorService;
 	private ModelMapper modelMapper;
-	
+
 	@Autowired
-	public AppointmentServiceImpl(IAppointmentRepository appointmentRepository, IDoctorService doctorService, ModelMapper modelMapper) {
+	public AppointmentServiceImpl(IAppointmentRepository appointmentRepository, IDoctorService doctorService,
+			ModelMapper modelMapper) {
 		this.appointmentRepository = appointmentRepository;
 		this.doctorService = doctorService;
 		this.modelMapper = modelMapper;
@@ -52,7 +53,7 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 	public AppointmentDTO verify(AppointmentDTO entity, String idDoctor) {
 		Doctor doctor = doctorService.get(idDoctor);
 		Appointment appointment = modelMapper.map(entity, Appointment.class);
-		
+
 		if (entity.getHour() >= doctor.getAttentionStartTime() && entity.getHour() <= doctor.getAttentionEndTime()) {
 			appointment = super.save(appointment);
 			return modelMapper.map(appointment, AppointmentDTO.class);
@@ -69,14 +70,17 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 	 *         caso de que no exista la cita.
 	 */
 	@Override
-	public AppointmentDTO save(AppointmentDTO appointmentDto) {	
+	public AppointmentDTO save(AppointmentDTO appointmentDto) {
 		String idDoctor = appointmentDto.getDoctor();
 		String idPatient = appointmentDto.getPatient();
+		String date = appointmentDto.getDate();
 		List<Appointment> appointments = (List<Appointment>) appointmentRepository.findAll();
-		
+
 		for (Appointment app : appointments) {
-			if (app.getDoctor().equals(idDoctor) && app.getPatient().equals(idPatient)) {
-				return null;
+			if (app.getDate().equals(date)) {
+				if (app.getDoctor().equals(idDoctor) && app.getPatient().equals(idPatient)) {
+					return null;
+				}
 			}
 		}
 		return verify(appointmentDto, idDoctor);

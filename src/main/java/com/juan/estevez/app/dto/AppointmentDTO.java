@@ -10,6 +10,7 @@ public class AppointmentDTO implements Serializable{
 	private int idAppointment;
 	private String doctor;
 	private String patient;
+	private String date;
 	private int hour;
 	
 }

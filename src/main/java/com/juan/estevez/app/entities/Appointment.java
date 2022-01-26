@@ -24,7 +24,10 @@ public class Appointment implements Serializable{
 	@Column(name = "PATIENT")
 	private String patient;
 	
+	@Column(name = "FECHA")
+	private String date;
+	
 	@Column(name = "HOUR")
-	private int hour;
+	private int hour;	
 
 }
