@@ -1,6 +1,7 @@
 package com.juan.estevez.app.controllers;
 
 import java.util.List;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +27,12 @@ import com.juan.estevez.app.services.IDoctorService;
 public class DoctorRestController {
 
 	private IDoctorService doctorService;
+	private ModelMapper modelmapper;
 	
 	@Autowired
-	public DoctorRestController(IDoctorService doctorService) {
+	public DoctorRestController(IDoctorService doctorService, ModelMapper modelmapper) {
 		this.doctorService = doctorService;
+		this.modelmapper = modelmapper;
 	}
 
 	/**
@@ -51,7 +54,8 @@ public class DoctorRestController {
 	 */
 	@PostMapping
 	public ResponseEntity<DoctorDTO> save(@RequestBody DoctorDTO doctorDto) {
-		DoctorDTO obj = doctorService.save(doctorDto);
+		Doctor doctor = modelmapper.map(doctorDto, Doctor.class);
+		DoctorDTO obj = modelmapper.map(doctorService.save(doctor), DoctorDTO.class);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 
@@ -64,7 +68,8 @@ public class DoctorRestController {
 	 */
 	@PutMapping
 	public ResponseEntity<DoctorDTO> update(@RequestBody DoctorDTO doctorDto) {
-		DoctorDTO obj = doctorService.update(doctorDto);
+		Doctor doctor = modelmapper.map(doctorDto, Doctor.class);
+		DoctorDTO obj = modelmapper.map(doctorService.update(doctor), DoctorDTO.class);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 

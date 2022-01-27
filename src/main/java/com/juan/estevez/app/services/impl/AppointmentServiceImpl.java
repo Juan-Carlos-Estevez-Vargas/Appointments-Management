@@ -1,12 +1,11 @@
 package com.juan.estevez.app.services.impl;
 
 import java.util.List;
-import org.modelmapper.ModelMapper;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import com.juan.estevez.app.commons.GenericServiceImp;
-import com.juan.estevez.app.dto.AppointmentDTO;
 import com.juan.estevez.app.entities.Appointment;
 import com.juan.estevez.app.entities.Doctor;
 import com.juan.estevez.app.repositories.IAppointmentRepository;
@@ -26,14 +25,12 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 
 	private IAppointmentRepository appointmentRepository;
 	private IDoctorService doctorService;
-	private ModelMapper modelMapper;
 
 	@Autowired
-	public AppointmentServiceImpl(IAppointmentRepository appointmentRepository, IDoctorService doctorService,
-			ModelMapper modelMapper) {
+	public AppointmentServiceImpl(IAppointmentRepository appointmentRepository, IDoctorService doctorService
+		) {
 		this.appointmentRepository = appointmentRepository;
 		this.doctorService = doctorService;
-		this.modelMapper = modelMapper;
 	}
 
 	@Override
@@ -50,13 +47,13 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 	 *         atención del médico, en caso contrario, se inserta el registro en la
 	 *         base de datos.
 	 */
-	public AppointmentDTO verify(AppointmentDTO entity, String idDoctor) {
+	public Appointment verify(Appointment entity, String idDoctor) {
 		Doctor doctor = doctorService.get(idDoctor);
-		Appointment appointment = modelMapper.map(entity, Appointment.class);
+		Appointment response = new Appointment();
 
 		if (entity.getHour() >= doctor.getAttentionStartTime() && entity.getHour() <= doctor.getAttentionEndTime()) {
-			appointment = super.save(appointment);
-			return modelMapper.map(appointment, AppointmentDTO.class);
+			response = super.save(entity);
+			return response;
 		}
 		return null;
 	}
@@ -70,25 +67,34 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 	 *         caso de que no exista la cita.
 	 */
 	@Override
-	public AppointmentDTO save(AppointmentDTO appointmentDto) {
-		String idDoctor = appointmentDto.getDoctor();
-		String idPatient = appointmentDto.getPatient();
-		String date = appointmentDto.getDate();
+	public Appointment save(Appointment appointment) {
+		String idDoctor = appointment.getDoctor();
+		String idPatient = appointment.getPatient();
+		String date = appointment.getDate();
 		List<Appointment> appointments = (List<Appointment>) appointmentRepository.findAll();
 
-		for (Appointment app : appointments) {
-			if (app.getDate().equals(date)) {
-				if (app.getDoctor().equals(idDoctor) && app.getPatient().equals(idPatient)) {
-					return null;
-				}
-			}
+		Optional<Appointment> appointmentOptional = appointments
+													.stream()
+													.filter(app -> (app.getDate().equals(date)
+																	&& app.getDoctor().equals(idDoctor) 
+																	&& app.getPatient().equals(idPatient)))
+													.findAny();
+		
+		if (!appointmentOptional.isEmpty()) {
+			return null;
 		}
-		return verify(appointmentDto, idDoctor);
+
+		/*
+		 * for (Appointment app : appointments) { if (app.getDate().equals(date) &&
+		 * app.getDoctor().equals(idDoctor) && app.getPatient().equals(idPatient)) {
+		 * return null; } }
+		 */
+		return verify(appointment, idDoctor);
 	}
 
 	@Override
-	public AppointmentDTO update(AppointmentDTO appointmentDto) {
-		return save(appointmentDto);
+	public Appointment update(Appointment appointment) {
+		return save(appointment);
 	}
 
 }

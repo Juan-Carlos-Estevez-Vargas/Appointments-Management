@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.juan.estevez.app.controllers.PatientRestController;
 
 @SpringBootTest
-public class InyectionTest {
+class InyectionTest {
 
 	private PatientRestController patientRestController;
 
@@ -20,7 +20,7 @@ public class InyectionTest {
 	 * Se encarga de probar si la inyección se está realizando correctamente.
 	 */
 	@Test
-	public void contextLoads() {
+	 void contextLoads() {
 		assertThat(patientRestController).isNotNull();
 	}
 }

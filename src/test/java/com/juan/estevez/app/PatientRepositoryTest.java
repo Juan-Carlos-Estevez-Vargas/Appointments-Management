@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import com.juan.estevez.app.entities.Patient;
 
 @DataJpaTest
-public class PatientRepositoryTest {
+class PatientRepositoryTest {
 
 	private TestEntityManager testEntityManager;
 	
@@ -21,7 +21,7 @@ public class PatientRepositoryTest {
 	 * Se encarga de testear el método post de la entidad Patient
 	 */
 	@Test
-	public void savePatient() {
+	void savePatient() {
 		Patient patient = new Patient();
 		patient.setIdPatient("1829");
 		patient.setName("Name2");
@@ -33,4 +33,23 @@ public class PatientRepositoryTest {
 		assertThat(patient.getIdPatient()).isNotNull();
 	}
 	
+	@Test
+	 void savePatient2() {
+		Patient patient = new Patient();
+		patient.setIdPatient("1829");
+		patient.setName("Name2");
+		patient.setDateOfBirth("2001-05-08");
+		patient.setIdType("CC");
+		patient.setEps("Nueva EPS");
+		patient.setClinicHistory("Ok");
+		Patient response = new Patient();
+		response = testEntityManager.persistAndFlush(patient);
+		assertThat(response.getIdPatient()).isNotNull();
+		assertThat(response.getName()).isNotEmpty();
+		assertThat(response.getIdType()).isNotEmpty();
+		assertThat(response.getDateOfBirth()).isNotEmpty();
+		assertThat(response.getEps()).isNotEmpty();
+		assertThat(response.getClinicHistory()).isNotEmpty();
+	}
+
 }

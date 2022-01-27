@@ -1,6 +1,7 @@
 package com.juan.estevez.app.controllers;
 
 import java.util.List;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.juan.estevez.app.dto.AppointmentDTO;
 import com.juan.estevez.app.entities.Appointment;
 import com.juan.estevez.app.services.IAppointmentService;
@@ -27,10 +27,12 @@ import com.juan.estevez.app.services.IAppointmentService;
 public class AppointmentRestController {
 
 	private IAppointmentService appointmentService;
+	private ModelMapper modelMapper;
 	
 	@Autowired
-	public AppointmentRestController(IAppointmentService appointmentService) {
+	public AppointmentRestController(IAppointmentService appointmentService, ModelMapper modelMapper) {
 		this.appointmentService = appointmentService;
+		this.modelMapper = modelMapper;
 	}
 
 	/**
@@ -52,7 +54,12 @@ public class AppointmentRestController {
 	 */
 	@PostMapping
 	public ResponseEntity<AppointmentDTO> save(@RequestBody AppointmentDTO appointmentDto) {
-		AppointmentDTO obj = appointmentService.save(appointmentDto);
+		Appointment appointment = modelMapper.map(appointmentDto, Appointment.class);
+		Appointment insertion = appointmentService.save(appointment);
+		if (insertion == null) {
+			return null;
+		}
+		AppointmentDTO obj = modelMapper.map(insertion, AppointmentDTO.class);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 
@@ -65,7 +72,8 @@ public class AppointmentRestController {
 	 */
 	@PutMapping
 	public ResponseEntity<AppointmentDTO> update(@RequestBody AppointmentDTO appointmentDto) {
-		AppointmentDTO obj = appointmentService.update(appointmentDto);
+		Appointment appointment = modelMapper.map(appointmentDto, Appointment.class);
+		AppointmentDTO obj = modelMapper.map(appointmentService.update(appointment), AppointmentDTO.class);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 
