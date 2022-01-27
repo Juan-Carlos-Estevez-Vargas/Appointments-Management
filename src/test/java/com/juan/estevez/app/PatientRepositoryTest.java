@@ -29,8 +29,14 @@ class PatientRepositoryTest {
 		patient.setIdType("CC");
 		patient.setEps("Nueva EPS");
 		patient.setClinicHistory("Ok");
-		testEntityManager.persistAndFlush(patient);
-		assertThat(patient.getIdPatient()).isNotNull();
+		Patient response = new Patient();
+		response = testEntityManager.persistAndFlush(patient);
+		assertThat(response.getIdPatient()).isNotNull();
+		assertThat(response.getName()).isNotEmpty();
+		assertThat(response.getIdType()).isNotEmpty();
+		assertThat(response.getDateOfBirth()).isNotEmpty();
+		assertThat(response.getEps()).isNotEmpty();
+		assertThat(response.getClinicHistory()).isNotEmpty();
 	}
 	
 	@Test

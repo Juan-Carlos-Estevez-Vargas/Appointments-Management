@@ -2,6 +2,7 @@ package com.juan.estevez.app.services.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiPredicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,7 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 	private IDoctorService doctorService;
 
 	@Autowired
-	public AppointmentServiceImpl(IAppointmentRepository appointmentRepository, IDoctorService doctorService
-		) {
+	public AppointmentServiceImpl(IAppointmentRepository appointmentRepository, IDoctorService doctorService) {
 		this.appointmentRepository = appointmentRepository;
 		this.doctorService = doctorService;
 	}
@@ -49,11 +49,10 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 	 */
 	public Appointment verify(Appointment entity, String idDoctor) {
 		Doctor doctor = doctorService.get(idDoctor);
-		Appointment response = new Appointment();
-
-		if (entity.getHour() >= doctor.getAttentionStartTime() && entity.getHour() <= doctor.getAttentionEndTime()) {
-			response = super.save(entity);
-			return response;
+		BiPredicate<Appointment, Doctor> xd = (appointment, doc) -> appointment.getHour() >= doc.getAttentionStartTime()
+				&& appointment.getHour() <= doc.getAttentionStartTime();
+		if (xd.test(entity, doctor)) {
+			return super.save(entity);
 		}
 		return null;
 	}
@@ -73,22 +72,11 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 		String date = appointment.getDate();
 		List<Appointment> appointments = (List<Appointment>) appointmentRepository.findAll();
 
-		Optional<Appointment> appointmentOptional = appointments
-													.stream()
-													.filter(app -> (app.getDate().equals(date)
-																	&& app.getDoctor().equals(idDoctor) 
-																	&& app.getPatient().equals(idPatient)))
-													.findAny();
-		
-		if (!appointmentOptional.isEmpty()) {
-			return null;
-		}
+		Optional<Appointment> appointmentOptional = appointments.stream().filter(app -> (app.getDate().equals(date)
+				&& app.getDoctor().equals(idDoctor) && app.getPatient().equals(idPatient))).findAny();
 
-		/*
-		 * for (Appointment app : appointments) { if (app.getDate().equals(date) &&
-		 * app.getDoctor().equals(idDoctor) && app.getPatient().equals(idPatient)) {
-		 * return null; } }
-		 */
+		if (!appointmentOptional.isEmpty())
+			return null;
 		return verify(appointment, idDoctor);
 	}
 
