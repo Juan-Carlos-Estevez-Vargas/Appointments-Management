@@ -15,7 +15,7 @@ public class Doctor implements Serializable{
 	@Column(name = "ID_DOCTOR")
 	private String idDoctor;
 	
-	@Column(name = "DOSTORS_NAME")
+	@Column(name = "DOCTORS_NAME")
 	private String doctorsName;
 	
 	@Column(name = "ID_TYPE")
