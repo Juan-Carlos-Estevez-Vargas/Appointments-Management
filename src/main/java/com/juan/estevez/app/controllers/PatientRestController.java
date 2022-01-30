@@ -81,8 +81,8 @@ public class PatientRestController {
 	 *         Patient.
 	 */
 	@GetMapping("/findById/{idPatient}")
-	public Patient searchPatient(@PathVariable String idPatient) {
-		return patientService.get(idPatient);
+	public PatientDTO searchPatient(@PathVariable String idPatient) {
+		return modelMapper.map(patientService.get(idPatient), PatientDTO.class);
 	}
 
 	/**

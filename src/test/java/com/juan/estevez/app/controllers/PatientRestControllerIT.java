@@ -58,7 +58,7 @@ public class PatientRestControllerIT {
 	void getPatient() {
 		PatientRestController patientRestController = new PatientRestController(patientService, modelMapper);
 		String idPatient = "1223";
-		Patient response = patientRestController.searchPatient(idPatient);
+		PatientDTO response = patientRestController.searchPatient(idPatient);
 		assertEquals(idPatient, response.getIdPatient());
 	}
 	

@@ -80,8 +80,8 @@ public class DoctorRestController {
 	 * @return Un mèdico encontrado y encapsulado en una estructura de tipo Doctor.
 	 */
 	@GetMapping("/findById/{idDoctor}")
-	public Doctor searchDoctor(@PathVariable String idDoctor) {
-		return doctorService.get(idDoctor);
+	public DoctorDTO searchDoctor(@PathVariable String idDoctor) {
+		return modelmapper.map(doctorService.get(idDoctor), DoctorDTO.class);
 	}
 
 	/**

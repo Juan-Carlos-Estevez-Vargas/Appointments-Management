@@ -45,7 +45,7 @@ public class PatientRestControllerIT2 {
 	@Test
 	void getPatient() {
 		String idPatient = "1223";
-		Patient response = patientRestController.searchPatient(idPatient);
+		PatientDTO response = patientRestController.searchPatient(idPatient);
 		assertEquals(idPatient, response.getIdPatient());
 	}
 	

@@ -85,8 +85,8 @@ public class AppointmentRestController {
 	 *         Appointment.
 	 */
 	@GetMapping("/findById/{idAppointment}")
-	public Appointment searchAppointment(@PathVariable int idAppointment) {
-		return appointmentService.get(idAppointment);
+	public AppointmentDTO searchAppointment(@PathVariable int idAppointment) {
+		return modelMapper.map(appointmentService.get(idAppointment), AppointmentDTO.class);
 	}
 
 	/**
