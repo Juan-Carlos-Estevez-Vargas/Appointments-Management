@@ -28,7 +28,7 @@ public class AppointmentRestController {
 
 	private IAppointmentService appointmentService;
 	private ModelMapper modelMapper;
-	
+
 	@Autowired
 	public AppointmentRestController(IAppointmentService appointmentService, ModelMapper modelMapper) {
 		this.appointmentService = appointmentService;
@@ -54,13 +54,9 @@ public class AppointmentRestController {
 	 */
 	@PostMapping
 	public ResponseEntity<AppointmentDTO> save(@RequestBody AppointmentDTO appointmentDto) {
-		Appointment appointment = modelMapper.map(appointmentDto, Appointment.class);
-		Appointment insertion = appointmentService.save(appointment);
-		if (insertion == null) {
-			return null;
-		}
-		AppointmentDTO obj = modelMapper.map(insertion, AppointmentDTO.class);
-		return new ResponseEntity<>(obj, HttpStatus.OK);
+		return new ResponseEntity<>(modelMapper
+				.map(appointmentService.save(modelMapper.map(appointmentDto, Appointment.class)), AppointmentDTO.class),
+				HttpStatus.OK);
 	}
 
 	/**
@@ -72,9 +68,10 @@ public class AppointmentRestController {
 	 */
 	@PutMapping
 	public ResponseEntity<AppointmentDTO> update(@RequestBody AppointmentDTO appointmentDto) {
-		Appointment appointment = modelMapper.map(appointmentDto, Appointment.class);
-		AppointmentDTO obj = modelMapper.map(appointmentService.update(appointment), AppointmentDTO.class);
-		return new ResponseEntity<>(obj, HttpStatus.OK);
+		return new ResponseEntity<>(
+				modelMapper.map(appointmentService.update(modelMapper.map(appointmentDto, Appointment.class)),
+						AppointmentDTO.class),
+				HttpStatus.OK);
 	}
 
 	/**
@@ -96,8 +93,8 @@ public class AppointmentRestController {
 	 * @return Estructura de tipo Appointment con la cita eliminada.
 	 */
 	@DeleteMapping("{idAppointment}")
-	public ResponseEntity<Appointment> delete(@PathVariable int idAppointment) {
-		Appointment appointment = appointmentService.get(idAppointment);
+	public ResponseEntity<AppointmentDTO> delete(@PathVariable int idAppointment) {
+		AppointmentDTO appointment = modelMapper.map(appointmentService.get(idAppointment), AppointmentDTO.class);
 		appointmentService.delete(idAppointment);
 		return new ResponseEntity<>(appointment, HttpStatus.OK);
 	}

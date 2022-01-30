@@ -6,12 +6,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import com.juan.estevez.app.dto.PatientDTO;
-import com.juan.estevez.app.entities.Patient;
 
 @SpringBootTest
-public class PatientRestControllerIT2 {
+class PatientRestControllerIT2 {
+	
+	//TestRestTemplate
+	//TestWebClient
 	
 	private PatientRestController patientRestController;
 
@@ -21,6 +24,7 @@ public class PatientRestControllerIT2 {
 	}
 	
 	@Test
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanInsertPatient.sql")
 	void postPatient() {
 		ResponseEntity<PatientDTO> response = patientRestController.save(createPatientDTO());
 		assertEquals(createPatientDTO().getIdPatient(), response.getBody().getIdPatient());
@@ -32,6 +36,8 @@ public class PatientRestControllerIT2 {
 	}
 	
 	@Test
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatient.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts =  "cleanUpdatePatient")
 	void putPatient() {
 		ResponseEntity<PatientDTO> response = patientRestController.update(createPatientDTO());
 		assertEquals(createPatientDTO().getIdPatient(), response.getBody().getIdPatient());
@@ -40,9 +46,12 @@ public class PatientRestControllerIT2 {
 		assertEquals(createPatientDTO().getIdType(), response.getBody().getIdType());
 		assertEquals(createPatientDTO().getEps(), response.getBody().getEps());
 		assertEquals(createPatientDTO().getClinicHistory(), response.getBody().getClinicHistory());
+		//Ir a a la base de datos a verificar, ppor ejemplo usando JdbcTemplate.
 	}
 	
 	@Test
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatient.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanPatient.sql")
 	void getPatient() {
 		String idPatient = "1223";
 		PatientDTO response = patientRestController.searchPatient(idPatient);
@@ -50,10 +59,12 @@ public class PatientRestControllerIT2 {
 	}
 	
 	@Test
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatient.sql")
 	void deletePatient() {
 		String idPatient = "1223";
-		ResponseEntity<Patient> response = patientRestController.delete(idPatient);
+		ResponseEntity<PatientDTO> response = patientRestController.delete(idPatient);
 		assertEquals(idPatient, response.getBody().getIdPatient());
+		//assert ir a la bae de datos a verificar que si se borró
 	}
 	
 	private PatientDTO createPatientDTO() {

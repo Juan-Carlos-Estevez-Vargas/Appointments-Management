@@ -54,9 +54,9 @@ public class PatientRestController {
 	 */
 	@PostMapping
 	public ResponseEntity<PatientDTO> save(@RequestBody PatientDTO patientDto) {
-		Patient patient = modelMapper.map(patientDto, Patient.class);
-		PatientDTO obj = modelMapper.map(patientService.save(patient), PatientDTO.class);
-		return new ResponseEntity<>(obj, HttpStatus.OK);
+		return new ResponseEntity<>(
+				modelMapper.map(patientService.save(modelMapper.map(patientDto, Patient.class)), PatientDTO.class),
+				HttpStatus.OK);
 	}
 
 	/**
@@ -68,9 +68,9 @@ public class PatientRestController {
 	 */
 	@PutMapping
 	public ResponseEntity<PatientDTO> update(@RequestBody PatientDTO patientDto) {
-		Patient patient = modelMapper.map(patientDto, Patient.class);
-		PatientDTO obj = modelMapper.map(patientService.update(patient), PatientDTO.class);
-		return new ResponseEntity<>(obj, HttpStatus.OK);
+		return new ResponseEntity<>(
+				modelMapper.map(patientService.update(modelMapper.map(patientDto, Patient.class)), PatientDTO.class),
+				HttpStatus.OK);
 	}
 
 	/**
@@ -92,8 +92,8 @@ public class PatientRestController {
 	 * @return Estructura de tipo Patient con el paciente eliminado.
 	 */
 	@DeleteMapping("{idPatient}")
-	public ResponseEntity<Patient> delete(@PathVariable String idPatient) {
-		Patient patient = patientService.get(idPatient);
+	public ResponseEntity<PatientDTO> delete(@PathVariable String idPatient) {
+		PatientDTO patient = modelMapper.map(patientService.get(idPatient), PatientDTO.class);
 		patientService.delete(idPatient);
 		return new ResponseEntity<>(patient, HttpStatus.OK);
 	}

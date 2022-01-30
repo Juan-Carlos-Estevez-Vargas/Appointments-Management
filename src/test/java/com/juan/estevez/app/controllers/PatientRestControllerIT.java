@@ -7,11 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import com.juan.estevez.app.dto.PatientDTO;
-import com.juan.estevez.app.entities.Patient;
 import com.juan.estevez.app.services.IPatientService;
 
 @SpringBootTest
-public class PatientRestControllerIT {
+class PatientRestControllerIT {
 
 	private IPatientService patientService;
 	private ModelMapper modelMapper;
@@ -50,7 +49,7 @@ public class PatientRestControllerIT {
 	void deletePatient(){
 		PatientRestController patientRestController = new PatientRestController(patientService, modelMapper);
 		String idPatient = "1223";
-		ResponseEntity<Patient> response = patientRestController.delete(idPatient);
+		ResponseEntity<PatientDTO> response = patientRestController.delete(idPatient);
 		assertEquals(idPatient, response.getBody().getIdPatient());
 	}
 	

@@ -28,7 +28,7 @@ public class DoctorRestController {
 
 	private IDoctorService doctorService;
 	private ModelMapper modelmapper;
-	
+
 	@Autowired
 	public DoctorRestController(IDoctorService doctorService, ModelMapper modelmapper) {
 		this.doctorService = doctorService;
@@ -54,9 +54,9 @@ public class DoctorRestController {
 	 */
 	@PostMapping
 	public ResponseEntity<DoctorDTO> save(@RequestBody DoctorDTO doctorDto) {
-		Doctor doctor = modelmapper.map(doctorDto, Doctor.class);
-		DoctorDTO obj = modelmapper.map(doctorService.save(doctor), DoctorDTO.class);
-		return new ResponseEntity<>(obj, HttpStatus.OK);
+		return new ResponseEntity<>(
+				modelmapper.map(doctorService.save(modelmapper.map(doctorDto, Doctor.class)), DoctorDTO.class),
+				HttpStatus.OK);
 	}
 
 	/**
@@ -68,9 +68,9 @@ public class DoctorRestController {
 	 */
 	@PutMapping
 	public ResponseEntity<DoctorDTO> update(@RequestBody DoctorDTO doctorDto) {
-		Doctor doctor = modelmapper.map(doctorDto, Doctor.class);
-		DoctorDTO obj = modelmapper.map(doctorService.update(doctor), DoctorDTO.class);
-		return new ResponseEntity<>(obj, HttpStatus.OK);
+		return new ResponseEntity<>(
+				modelmapper.map(doctorService.update(modelmapper.map(doctorDto, Doctor.class)), DoctorDTO.class),
+				HttpStatus.OK);
 	}
 
 	/**
@@ -91,8 +91,8 @@ public class DoctorRestController {
 	 * @return Estructura de tipo Doctor con el mèdico eliminado.
 	 */
 	@DeleteMapping("{idDoctor}")
-	public ResponseEntity<Doctor> delete(@PathVariable String idDoctor) {
-		Doctor doctor = doctorService.get(idDoctor);
+	public ResponseEntity<DoctorDTO> delete(@PathVariable String idDoctor) {
+		DoctorDTO doctor = modelmapper.map(doctorService.get(idDoctor), DoctorDTO.class);
 		doctorService.delete(idDoctor);
 		return new ResponseEntity<>(doctor, HttpStatus.OK);
 	}
