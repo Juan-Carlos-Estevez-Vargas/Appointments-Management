@@ -1,0 +1,1 @@
+INSERT INTO patient VALUES ('303022', 'OK22', '2000-10-11', 'EPS22', 'CC', 'Mauricio22');
