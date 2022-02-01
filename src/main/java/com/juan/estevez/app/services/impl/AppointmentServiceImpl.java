@@ -49,11 +49,14 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 	 */
 	public Appointment verify(Appointment entity, String idDoctor) {
 		Doctor doctor = doctorService.get(idDoctor);
-		BiPredicate<Appointment, Doctor> xd = (appointment, doc) -> appointment.getHour() >= doc.getAttentionStartTime()
-				&& appointment.getHour() <= doc.getAttentionStartTime();
-		if (xd.test(entity, doctor)) {
+		if (entity.getHour() >= doctor.getAttentionStartTime() && entity.getHour() <= doctor.getAttentionEndTime()) {
 			return super.save(entity);
 		}
+		//BiPredicate<Appointment, Doctor> hourValidation = (appointment, doc) -> appointment.getHour() >= doc.getAttentionStartTime()
+		//		&& appointment.getHour() <= doc.getAttentionStartTime();
+		//if (hourValidation.test(entity, doctor)) {
+			//return super.save(entity);
+		//}
 		return null;
 	}
 

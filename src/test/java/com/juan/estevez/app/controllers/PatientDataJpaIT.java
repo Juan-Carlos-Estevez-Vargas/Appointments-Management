@@ -26,7 +26,7 @@ public class PatientDataJpaIT {
 	}
 
 	@Test
-	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/patient/cleanInsertPatient.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanInsertPatient.sql")
 	void postPatient() {
 		HttpEntity<Patient> request = new HttpEntity<>(createPatient());
 		ResponseEntity<Patient> response = testRestTemplate.exchange(
@@ -46,8 +46,8 @@ public class PatientDataJpaIT {
 	}
 
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/patient/insertPatientToUpdate.sql")
-	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/patient/cleanPatientToUpdate.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatientToUpdate.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanPatientToUpdate.sql")
 	void putPatient() {
 		HttpEntity<Patient> request = new HttpEntity<>(updatePatient());
 		ResponseEntity<Patient> response = testRestTemplate.exchange(
@@ -67,8 +67,8 @@ public class PatientDataJpaIT {
 	}
 
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/patient/insertPatients.sql")
-	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/patient/cleanPatients.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatients.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanPatients.sql")
 	void getPatient() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Patient> request = new HttpEntity<Patient>(headers);
@@ -83,7 +83,7 @@ public class PatientDataJpaIT {
 	}
 
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/patient/insertPatientToDelete.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatientToDelete.sql")
 	void deletePatient() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Patient> request = new HttpEntity<Patient>(headers);

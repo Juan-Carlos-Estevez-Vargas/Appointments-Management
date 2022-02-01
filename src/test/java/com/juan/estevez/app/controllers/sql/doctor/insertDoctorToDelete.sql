@@ -1,1 +1,0 @@
-INSERT INTO DOCTOR VALUES ("100100", 16, 9, "Margot Robbie", "CC", "013", "Cardiología", 3);

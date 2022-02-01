@@ -25,7 +25,7 @@ public class DoctorDataJpaIT {
 	}
 
 	@Test
-	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/doctor/cleanInsertDoctor.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanInsertDoctor.sql")
 	void postDoctor() {
 		HttpEntity<Doctor> request = new HttpEntity<>(createDoctor());
 		ResponseEntity<Doctor> response = testRestTemplate.exchange(
@@ -49,8 +49,8 @@ public class DoctorDataJpaIT {
 	}
 
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/doctor/insertDoctorToUpdate.sql")
-	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/doctor/cleanDoctorToUpdate.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertDoctorToUpdate.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanDoctorToUpdate.sql")
 	void putDoctor() {
 		HttpEntity<Doctor> request = new HttpEntity<>(updateDoctor());
 		ResponseEntity<Doctor> response = testRestTemplate.exchange(
@@ -74,8 +74,8 @@ public class DoctorDataJpaIT {
 	}
 	
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/doctor/insertDoctors.sql")
-	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/doctor/cleanDoctors.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertDoctors.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanDoctors.sql")
 	void getDoctor() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Doctor> request = new HttpEntity<Doctor>(headers);
@@ -90,7 +90,7 @@ public class DoctorDataJpaIT {
 	}
 
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/doctor/insertDoctorToDelete.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertDoctorToDelete.sql")
 	void deleteDoctor() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Doctor> request = new HttpEntity<Doctor>(headers);
@@ -120,10 +120,10 @@ public class DoctorDataJpaIT {
 	}
 
 	/**
-	 * Crea un nuevo paciente para actualizar en la base de datos como parte de la
+	 * Crea un nuevo doctor para actualizar en la base de datos como parte de la
 	 * prueba de integración
 	 * 
-	 * @return paciente a actualizar
+	 * @return doctor a actualizar
 	 */
 	private Doctor updateDoctor() {
 		Doctor doctor = new Doctor();

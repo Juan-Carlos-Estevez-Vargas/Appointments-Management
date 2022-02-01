@@ -53,10 +53,8 @@ public class AppointmentRestController {
 	 *         status de la respuesta HTTP.
 	 */
 	@PostMapping
-	public ResponseEntity<AppointmentDTO> save(@RequestBody AppointmentDTO appointmentDto) {
-		return new ResponseEntity<>(modelMapper
-				.map(appointmentService.save(modelMapper.map(appointmentDto, Appointment.class)), AppointmentDTO.class),
-				HttpStatus.OK);
+	public ResponseEntity<Appointment> save(@RequestBody Appointment appointmentDto) {
+		return new ResponseEntity<>(appointmentService.save(appointmentDto), HttpStatus.OK);
 	}
 
 	/**
