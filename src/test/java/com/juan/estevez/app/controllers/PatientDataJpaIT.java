@@ -16,12 +16,12 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import com.juan.estevez.app.entities.Patient;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-public class PatientRestControllerIT {
+public class PatientDataJpaIT {
 
 	private TestRestTemplate testRestTemplate;
 
 	@Autowired
-	public PatientRestControllerIT(TestRestTemplate testRestTemplate) {
+	public PatientDataJpaIT(TestRestTemplate testRestTemplate) {
 		this.testRestTemplate = testRestTemplate;
 	}
 
@@ -29,8 +29,8 @@ public class PatientRestControllerIT {
 	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/patient/cleanInsertPatient.sql")
 	void postPatient() {
 		HttpEntity<Patient> request = new HttpEntity<>(createPatient());
-		ResponseEntity<Patient> response = testRestTemplate.exchange("http://localhost:8080/patient", HttpMethod.POST,
-				request, Patient.class);
+		ResponseEntity<Patient> response = testRestTemplate.exchange(
+				"http://localhost:8080/patient", HttpMethod.POST, request, Patient.class);
 		assertThat(response.getBody().getIdPatient()).isNotNull();
 		assertEquals("1829", response.getBody().getIdPatient());
 		assertThat(response.getBody().getName()).isNotEmpty();
@@ -50,8 +50,8 @@ public class PatientRestControllerIT {
 	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/patient/cleanPatientToUpdate.sql")
 	void putPatient() {
 		HttpEntity<Patient> request = new HttpEntity<>(updatePatient());
-		ResponseEntity<Patient> response = testRestTemplate.exchange("http://localhost:8080/patient", HttpMethod.PUT,
-				request, Patient.class);
+		ResponseEntity<Patient> response = testRestTemplate.exchange(
+				"http://localhost:8080/patient", HttpMethod.PUT, request, Patient.class);
 		assertThat(response.getBody().getIdPatient()).isNotNull();
 		assertEquals("303022", response.getBody().getIdPatient());
 		assertThat(response.getBody().getName()).isNotEmpty();
@@ -72,10 +72,10 @@ public class PatientRestControllerIT {
 	void getPatient() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Patient> request = new HttpEntity<Patient>(headers);
-		ResponseEntity<Patient> response = testRestTemplate.exchange("http://localhost:8080/patient/findById/30302",
-				HttpMethod.GET, request, Patient.class);
-		ResponseEntity<Patient> response2 = testRestTemplate.exchange("http://localhost:8080/patient/findById/30303",
-				HttpMethod.GET, request, Patient.class);
+		ResponseEntity<Patient> response = testRestTemplate.exchange(
+				"http://localhost:8080/patient/findById/30302",	HttpMethod.GET, request, Patient.class);
+		ResponseEntity<Patient> response2 = testRestTemplate.exchange(
+				"http://localhost:8080/patient/findById/30303",	HttpMethod.GET, request, Patient.class);
 		assertThat(response.getBody().getIdPatient()).isNotNull();
 		assertEquals("30302", response.getBody().getIdPatient());
 		assertThat(response2.getBody().getIdPatient()).isNotNull();
@@ -87,8 +87,8 @@ public class PatientRestControllerIT {
 	void deletePatient() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Patient> request = new HttpEntity<Patient>(headers);
-		ResponseEntity<Patient> response = testRestTemplate.exchange("http://localhost:8080/patient/30302",
-				HttpMethod.DELETE, request, Patient.class);
+		ResponseEntity<Patient> response = testRestTemplate.exchange(
+				"http://localhost:8080/patient/30302", HttpMethod.DELETE, request, Patient.class);
 		assertThat(response.getBody().getIdPatient()).isNotNull();
 		assertEquals("30302", response.getBody().getIdPatient());
 	}
