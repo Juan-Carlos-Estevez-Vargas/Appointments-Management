@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import com.juan.estevez.app.entities.Appointment;
-import com.juan.estevez.app.entities.Doctor;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 public class AppointmentDataJpaIT {
@@ -47,10 +46,10 @@ public class AppointmentDataJpaIT {
 	}
 	
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertDoctorToPutAppointment.sql")
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatientToPutAppointment.sql")
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertAppointmentToPut.sql")
-	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanPutAppointment.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertDoctorToPutAppointment.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertPatientToPutAppointment.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertAppointmentToPut.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/appointment/cleanPutAppointment.sql")
 	void putAppointment() {
 		HttpEntity<Appointment> request = new HttpEntity<>(updateAppointment());
 		ResponseEntity<Appointment> response = testRestTemplate.exchange(
@@ -69,10 +68,10 @@ public class AppointmentDataJpaIT {
 	
 	
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertDoctorsToGetAppointment.sql")
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatientsToGetAppointment.sql")
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertAppointmentsToGet.sql")
-	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanAppointments.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertDoctorsToGetAppointment.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertPatientsToGetAppointment.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertAppointmentsToGet.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/appointment/cleanAppointments.sql")
 	void getAppointments() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Appointment> request = new HttpEntity<Appointment>(headers);
@@ -87,16 +86,17 @@ public class AppointmentDataJpaIT {
 	}
 
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertDoctorToDeleteAppointment.sql")
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatientToDeleteAppointment.sql")
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertAppointmentToDelete.sql")
-	void deleteDoctor() {
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertDoctorToDeleteAppointment.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertPatientToDeleteAppointment.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertAppointmentToDelete.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/cleanAppointmentToDelete.sql")
+	void deleteAppointment() {
 		HttpHeaders headers = new HttpHeaders();
-		HttpEntity<Doctor> request = new HttpEntity<Doctor>(headers);
-		ResponseEntity<Doctor> response = testRestTemplate.exchange(
-				"http://localhost:8080/patient/14", HttpMethod.DELETE, request, Doctor.class);
-		assertThat(response.getBody().getIdDoctor()).isNotNull();
-		assertEquals(14, response.getBody().getIdDoctor());
+		HttpEntity<Appointment> request = new HttpEntity<Appointment>(headers);
+		ResponseEntity<Appointment> response = testRestTemplate.exchange(
+				"http://localhost:8080/appointment/14", HttpMethod.DELETE, request, Appointment.class);
+		assertThat(response.getBody().getIdAppointment()).isNotNull();
+		assertEquals(14, response.getBody().getIdAppointment());
 	}
 	
 	/**

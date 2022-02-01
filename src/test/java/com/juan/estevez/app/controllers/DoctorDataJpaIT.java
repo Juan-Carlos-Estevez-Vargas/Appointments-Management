@@ -95,9 +95,9 @@ public class DoctorDataJpaIT {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Doctor> request = new HttpEntity<Doctor>(headers);
 		ResponseEntity<Doctor> response = testRestTemplate.exchange(
-				"http://localhost:8080/patient/100100", HttpMethod.DELETE, request, Doctor.class);
+				"http://localhost:8080/doctor/112255", HttpMethod.DELETE, request, Doctor.class);
 		assertThat(response.getBody().getIdDoctor()).isNotNull();
-		assertEquals("100100", response.getBody().getIdDoctor());
+		assertEquals("112255", response.getBody().getIdDoctor());
 	}
 
 	/**
