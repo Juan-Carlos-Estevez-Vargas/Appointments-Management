@@ -11,17 +11,23 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import com.juan.estevez.app.entities.Doctor;
+import com.juan.estevez.app.services.IDoctorService;
 
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 class DoctorDataJpaIT {
+	
 	private TestRestTemplate testRestTemplate;
+	private IDoctorService doctorService;
 
 	@Autowired
-	public DoctorDataJpaIT(TestRestTemplate testRestTemplate) {
+	public DoctorDataJpaIT(TestRestTemplate testRestTemplate, IDoctorService doctorService) {
 		this.testRestTemplate = testRestTemplate;
+		this.doctorService = doctorService;
 	}
 
 	@Test
@@ -30,6 +36,9 @@ class DoctorDataJpaIT {
 		HttpEntity<Doctor> request = new HttpEntity<>(createDoctor());
 		ResponseEntity<Doctor> response = testRestTemplate.exchange(
 				"http://localhost:8080/doctor", HttpMethod.POST, request, Doctor.class);
+		Doctor responseDatabase = doctorService.get(response.getBody().getIdDoctor());
+		assertThat(responseDatabase.getIdDoctor()).isNotEmpty();
+		assertEquals(response.getBody().getIdDoctor(), responseDatabase.getIdDoctor());
 		assertThat(response.getBody().getIdDoctor()).isNotNull();
 		assertEquals("1010", response.getBody().getIdDoctor());
 		assertThat(response.getBody().getDoctorsName()).isNotEmpty();
@@ -55,6 +64,9 @@ class DoctorDataJpaIT {
 		HttpEntity<Doctor> request = new HttpEntity<>(updateDoctor());
 		ResponseEntity<Doctor> response = testRestTemplate.exchange(
 				"http://localhost:8080/doctor", HttpMethod.PUT, request, Doctor.class);
+		Doctor responseDatabase = doctorService.get(response.getBody().getIdDoctor());
+		assertThat(responseDatabase.getIdDoctor()).isNotEmpty();
+		assertEquals(response.getBody().getIdDoctor(), responseDatabase.getIdDoctor());
 		assertThat(response.getBody().getIdDoctor()).isNotNull();
 		assertEquals("101010", response.getBody().getIdDoctor());
 		assertThat(response.getBody().getDoctorsName()).isNotEmpty();
@@ -81,8 +93,14 @@ class DoctorDataJpaIT {
 		HttpEntity<Doctor> request = new HttpEntity<Doctor>(headers);
 		ResponseEntity<Doctor> response = testRestTemplate.exchange(
 				"http://localhost:8080/doctor/findById/101011",	HttpMethod.GET, request, Doctor.class);
+		Doctor responseDatabase1 = doctorService.get(response.getBody().getIdDoctor());
+		assertThat(responseDatabase1.getIdDoctor()).isNotEmpty();
+		assertEquals(response.getBody().getIdDoctor(), responseDatabase1.getIdDoctor());
 		ResponseEntity<Doctor> response2 = testRestTemplate.exchange(
 				"http://localhost:8080/doctor/findById/101012",	HttpMethod.GET, request, Doctor.class);
+		Doctor responseDatabase2 = doctorService.get(response2.getBody().getIdDoctor());
+		assertThat(responseDatabase2.getIdDoctor()).isNotEmpty();
+		assertEquals(response2.getBody().getIdDoctor(), responseDatabase2.getIdDoctor());
 		assertThat(response.getBody().getIdDoctor()).isNotNull();
 		assertEquals("101011", response.getBody().getIdDoctor());
 		assertThat(response2.getBody().getIdDoctor()).isNotNull();

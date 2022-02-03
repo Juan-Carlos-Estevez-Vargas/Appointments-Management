@@ -14,15 +14,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import com.juan.estevez.app.entities.Appointment;
+import com.juan.estevez.app.services.IAppointmentService;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 class AppointmentDataJpaIT {
 	
 	private TestRestTemplate testRestTemplate;
+	private IAppointmentService appointmentService;
 
 	@Autowired
-	public AppointmentDataJpaIT(TestRestTemplate testRestTemplate) {
+	public AppointmentDataJpaIT(TestRestTemplate testRestTemplate, IAppointmentService appointmentService) {
 		this.testRestTemplate = testRestTemplate;
+		this.appointmentService = appointmentService;
 	}
 
 	@Test
@@ -33,6 +36,9 @@ class AppointmentDataJpaIT {
 		HttpEntity<Appointment> request = new HttpEntity<>(createAppointment());
 		ResponseEntity<Appointment> response = testRestTemplate.exchange(
 				"http://localhost:8080/appointment", HttpMethod.POST, request, Appointment.class);
+		Appointment responseDatabase = appointmentService.get(response.getBody().getIdAppointment());
+		assertThat(responseDatabase.getIdAppointment()).isNotNull();
+		assertEquals(response.getBody().getIdAppointment(), responseDatabase.getIdAppointment());
 		assertEquals(100, response.getBody().getIdAppointment());
 		assertThat(response.getBody().getDoctor()).isNotNull();
 		assertEquals("100000", response.getBody().getDoctor());
@@ -53,6 +59,9 @@ class AppointmentDataJpaIT {
 		HttpEntity<Appointment> request = new HttpEntity<>(updateAppointment());
 		ResponseEntity<Appointment> response = testRestTemplate.exchange(
 				"http://localhost:8080/appointment", HttpMethod.PUT, request, Appointment.class);
+		Appointment responseDatabase = appointmentService.get(response.getBody().getIdAppointment());
+		assertThat(responseDatabase.getIdAppointment()).isNotNegative().isNotNull();
+		assertEquals(response.getBody().getIdAppointment(), responseDatabase.getIdAppointment());
 		assertEquals(1, response.getBody().getIdAppointment());
 		assertThat(response.getBody().getDoctor()).isNotNull();
 		assertEquals("100001", response.getBody().getDoctor());
@@ -75,8 +84,14 @@ class AppointmentDataJpaIT {
 		HttpEntity<Appointment> request = new HttpEntity<Appointment>(headers);
 		ResponseEntity<Appointment> response = testRestTemplate.exchange(
 				"http://localhost:8080/appointment/findById/9",	HttpMethod.GET, request, Appointment.class);
+		Appointment responseDatabase1 = appointmentService.get(response.getBody().getIdAppointment());
+		assertThat(responseDatabase1.getIdAppointment()).isNotNegative().isNotNull();
+		assertEquals(response.getBody().getIdAppointment(), responseDatabase1.getIdAppointment());
 		ResponseEntity<Appointment> response2 = testRestTemplate.exchange(
 				"http://localhost:8080/appointment/findById/8",	HttpMethod.GET, request, Appointment.class);
+		Appointment responseDatabase2 = appointmentService.get(response2.getBody().getIdAppointment());
+		assertThat(responseDatabase2.getIdAppointment()).isNotNegative().isNotNull();
+		assertEquals(response2.getBody().getIdAppointment(), responseDatabase2.getIdAppointment());
 		assertEquals(9, response.getBody().getIdAppointment());
 		assertEquals(8, response2.getBody().getIdAppointment());
 	}
