@@ -1,1 +1,0 @@
-DELETE FROM PATIENT where id_patient = 1829;

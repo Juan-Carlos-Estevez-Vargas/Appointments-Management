@@ -16,7 +16,7 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import com.juan.estevez.app.entities.Appointment;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-public class AppointmentDataJpaIT {
+class AppointmentDataJpaIT {
 	
 	private TestRestTemplate testRestTemplate;
 
@@ -26,14 +26,13 @@ public class AppointmentDataJpaIT {
 	}
 
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertDoctorToPostAppointment.sql")
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertPatientToPostAppointment.sql")
-	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/appointment/cleanInsertAppointment.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertDoctorToPostAppointment.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatientToPostAppointment.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanInsertAppointment.sql")
 	void postAppointment() {
 		HttpEntity<Appointment> request = new HttpEntity<>(createAppointment());
 		ResponseEntity<Appointment> response = testRestTemplate.exchange(
 				"http://localhost:8080/appointment", HttpMethod.POST, request, Appointment.class);
-		assertThat(response.getBody().getIdAppointment()).isNotNull();
 		assertEquals(100, response.getBody().getIdAppointment());
 		assertThat(response.getBody().getDoctor()).isNotNull();
 		assertEquals("100000", response.getBody().getDoctor());
@@ -41,20 +40,19 @@ public class AppointmentDataJpaIT {
 		assertEquals("3030100", response.getBody().getPatient());
 		assertThat(response.getBody().getDate()).isNotNull();
 		assertEquals("2022-10-11", response.getBody().getDate());
-		assertThat(response.getBody().getHour()).isNotNull();
+		assertThat(response.getBody().getHour()).isNotNegative();
 		assertEquals(12, response.getBody().getHour());
 	}
 	
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertDoctorToPutAppointment.sql")
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertPatientToPutAppointment.sql")
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertAppointmentToPut.sql")
-	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/appointment/cleanPutAppointment.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertDoctorToPutAppointment.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatientToPutAppointment.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertAppointmentToPut.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanPutAppointment.sql")
 	void putAppointment() {
 		HttpEntity<Appointment> request = new HttpEntity<>(updateAppointment());
 		ResponseEntity<Appointment> response = testRestTemplate.exchange(
 				"http://localhost:8080/appointment", HttpMethod.PUT, request, Appointment.class);
-		assertThat(response.getBody().getIdAppointment()).isNotNull();
 		assertEquals(1, response.getBody().getIdAppointment());
 		assertThat(response.getBody().getDoctor()).isNotNull();
 		assertEquals("100001", response.getBody().getDoctor());
@@ -62,16 +60,16 @@ public class AppointmentDataJpaIT {
 		assertEquals("33", response.getBody().getPatient());
 		assertThat(response.getBody().getDate()).isNotNull();
 		assertEquals("2023-10-11", response.getBody().getDate());
-		assertThat(response.getBody().getHour()).isNotNull();
+		assertThat(response.getBody().getHour()).isNotNegative();
 		assertEquals(14, response.getBody().getHour());
 	}
 	
 	
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertDoctorsToGetAppointment.sql")
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertPatientsToGetAppointment.sql")
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertAppointmentsToGet.sql")
-	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/appointment/cleanAppointments.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertDoctorsToGetAppointment.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatientsToGetAppointment.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertAppointmentsToGet.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanAppointments.sql")
 	void getAppointments() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Appointment> request = new HttpEntity<Appointment>(headers);
@@ -79,31 +77,28 @@ public class AppointmentDataJpaIT {
 				"http://localhost:8080/appointment/findById/9",	HttpMethod.GET, request, Appointment.class);
 		ResponseEntity<Appointment> response2 = testRestTemplate.exchange(
 				"http://localhost:8080/appointment/findById/8",	HttpMethod.GET, request, Appointment.class);
-		assertThat(response.getBody().getIdAppointment()).isNotNull();
 		assertEquals(9, response.getBody().getIdAppointment());
-		assertThat(response2.getBody().getIdAppointment()).isNotNull();
 		assertEquals(8, response2.getBody().getIdAppointment());
 	}
 
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertDoctorToDeleteAppointment.sql")
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertPatientToDeleteAppointment.sql")
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/insertAppointmentToDelete.sql")
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/appointment/cleanAppointmentToDelete.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertDoctorToDeleteAppointment.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatientToDeleteAppointment.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertAppointmentToDelete.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "cleanAppointmentToDelete.sql")
 	void deleteAppointment() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Appointment> request = new HttpEntity<Appointment>(headers);
 		ResponseEntity<Appointment> response = testRestTemplate.exchange(
 				"http://localhost:8080/appointment/14", HttpMethod.DELETE, request, Appointment.class);
-		assertThat(response.getBody().getIdAppointment()).isNotNull();
 		assertEquals(14, response.getBody().getIdAppointment());
 	}
 	
 	/**
-	 * Crea un nuevo paciente para insertar en la base de datos como parte de la
+	 * Crea una nueva cita para insertar en la base de datos como parte de la
 	 * prueba de integración
 	 * 
-	 * @return paciente a insertar
+	 * @return cita a insertar
 	 */
 	private Appointment createAppointment() {
 		Appointment appointment = new Appointment();
@@ -116,10 +111,10 @@ public class AppointmentDataJpaIT {
 	}
 
 	/**
-	 * Crea un nuevo paciente para actualizar en la base de datos como parte de la
+	 * Crea una nueva cita para actualizar en la base de datos como parte de la
 	 * prueba de integración
 	 * 
-	 * @return paciente a actualizar
+	 * @return cita a actualizar
 	 */
 	private Appointment updateAppointment() {
 		Appointment appointment = new Appointment();

@@ -16,7 +16,7 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import com.juan.estevez.app.entities.Patient;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-public class PatientDataJpaIT {
+class PatientDataJpaIT {
 
 	private TestRestTemplate testRestTemplate;
 
@@ -26,7 +26,7 @@ public class PatientDataJpaIT {
 	}
 
 	@Test
-	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/patient/cleanInsertPatient.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanInsertPatient.sql")
 	void postPatient() {
 		HttpEntity<Patient> request = new HttpEntity<>(createPatient());
 		ResponseEntity<Patient> response = testRestTemplate.exchange(
@@ -46,14 +46,14 @@ public class PatientDataJpaIT {
 	}
 
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/patient/insertPatientToUpdate.sql")
-	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/patient/cleanPatientToUpdate.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatientToUpdate.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanPatientToUpdate.sql")
 	void putPatient() {
 		HttpEntity<Patient> request = new HttpEntity<>(updatePatient());
 		ResponseEntity<Patient> response = testRestTemplate.exchange(
 				"http://localhost:8080/patient", HttpMethod.PUT, request, Patient.class);
 		assertThat(response.getBody().getIdPatient()).isNotNull();
-		assertEquals("303022", response.getBody().getIdPatient());
+		assertEquals("30", response.getBody().getIdPatient());
 		assertThat(response.getBody().getName()).isNotEmpty();
 		assertEquals("Name88", response.getBody().getName());
 		assertThat(response.getBody().getIdType()).isNotEmpty();
@@ -67,8 +67,8 @@ public class PatientDataJpaIT {
 	}
 
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/patient/insertPatients.sql")
-	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/patient/cleanPatients.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatients.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanPatients.sql")
 	void getPatient() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Patient> request = new HttpEntity<Patient>(headers);
@@ -83,7 +83,7 @@ public class PatientDataJpaIT {
 	}
 
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/patient/insertPatientToDelete.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatientToDelete.sql")
 	void deletePatient() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Patient> request = new HttpEntity<Patient>(headers);
@@ -118,7 +118,7 @@ public class PatientDataJpaIT {
 	 */
 	private Patient updatePatient() {
 		Patient patient = new Patient();
-		patient.setIdPatient("303022");
+		patient.setIdPatient("30");
 		patient.setName("Name88");
 		patient.setDateOfBirth("2000-10-11");
 		patient.setIdType("CC");

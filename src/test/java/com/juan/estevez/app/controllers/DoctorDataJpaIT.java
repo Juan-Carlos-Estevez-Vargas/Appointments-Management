@@ -16,7 +16,7 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import com.juan.estevez.app.entities.Doctor;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-public class DoctorDataJpaIT {
+class DoctorDataJpaIT {
 	private TestRestTemplate testRestTemplate;
 
 	@Autowired
@@ -25,7 +25,7 @@ public class DoctorDataJpaIT {
 	}
 
 	@Test
-	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/doctor/cleanInsertDoctor.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanInsertDoctor.sql")
 	void postDoctor() {
 		HttpEntity<Doctor> request = new HttpEntity<>(createDoctor());
 		ResponseEntity<Doctor> response = testRestTemplate.exchange(
@@ -38,19 +38,19 @@ public class DoctorDataJpaIT {
 		assertEquals("CC", response.getBody().getIdType());
 		assertThat(response.getBody().getNumberProfessionalCard()).isNotEmpty();
 		assertEquals("1111", response.getBody().getNumberProfessionalCard());
-		assertThat(response.getBody().getYearsExperience()).isNotNull().isNotNegative();
+		assertThat(response.getBody().getYearsExperience()).isNotNegative();
 		assertEquals(1, response.getBody().getYearsExperience());
 		assertThat(response.getBody().getSpecialty()).isNotEmpty();
 		assertEquals("Neurología", response.getBody().getSpecialty());
-		assertThat(response.getBody().getAttentionStartTime()).isNotNull().isNotNegative();
+		assertThat(response.getBody().getAttentionStartTime()).isNotNegative();
 		assertEquals(8, response.getBody().getAttentionStartTime());
-		assertThat(response.getBody().getAttentionEndTime()).isNotNull().isNotNegative();
+		assertThat(response.getBody().getAttentionEndTime()).isNotNegative();
 		assertEquals(18, response.getBody().getAttentionEndTime());
 	}
 
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/doctor/insertDoctorToUpdate.sql")
-	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/doctor/cleanDoctorToUpdate.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertDoctorToUpdate.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanDoctorToUpdate.sql")
 	void putDoctor() {
 		HttpEntity<Doctor> request = new HttpEntity<>(updateDoctor());
 		ResponseEntity<Doctor> response = testRestTemplate.exchange(
@@ -63,19 +63,19 @@ public class DoctorDataJpaIT {
 		assertEquals("CC", response.getBody().getIdType());
 		assertThat(response.getBody().getNumberProfessionalCard()).isNotEmpty();
 		assertEquals("1", response.getBody().getNumberProfessionalCard());
-		assertThat(response.getBody().getYearsExperience()).isNotNull().isNotNegative();
+		assertThat(response.getBody().getYearsExperience()).isNotNegative();
 		assertEquals(3, response.getBody().getYearsExperience());
 		assertThat(response.getBody().getSpecialty()).isNotEmpty();
 		assertEquals("Neurología", response.getBody().getSpecialty());
-		assertThat(response.getBody().getAttentionStartTime()).isNotNull().isNotNegative();
+		assertThat(response.getBody().getAttentionStartTime()).isNotNegative();
 		assertEquals(6, response.getBody().getAttentionStartTime());
-		assertThat(response.getBody().getAttentionEndTime()).isNotNull().isNotNegative();
+		assertThat(response.getBody().getAttentionEndTime()).isNotNegative();
 		assertEquals(18, response.getBody().getAttentionEndTime());
 	}
 	
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/doctor/insertDoctors.sql")
-	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "sql/doctor/cleanDoctors.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertDoctors.sql")
+	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanDoctors.sql")
 	void getDoctor() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Doctor> request = new HttpEntity<Doctor>(headers);
@@ -90,7 +90,7 @@ public class DoctorDataJpaIT {
 	}
 
 	@Test
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "sql/doctor/insertDoctorToDelete.sql")
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertDoctorToDelete.sql")
 	void deleteDoctor() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Doctor> request = new HttpEntity<Doctor>(headers);
@@ -101,10 +101,10 @@ public class DoctorDataJpaIT {
 	}
 
 	/**
-	 * Crea un nuevo paciente para insertar en la base de datos como parte de la
+	 * Crea un nuevo doctor para insertar en la base de datos como parte de la
 	 * prueba de integración
 	 * 
-	 * @return paciente a insertar
+	 * @return doctor a insertar
 	 */
 	private Doctor createDoctor() {
 		Doctor doctor = new Doctor();

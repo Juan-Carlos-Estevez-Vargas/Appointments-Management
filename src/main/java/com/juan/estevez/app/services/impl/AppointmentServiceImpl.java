@@ -2,7 +2,6 @@ package com.juan.estevez.app.services.impl;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BiPredicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
@@ -52,11 +51,6 @@ public class AppointmentServiceImpl extends GenericServiceImp<Appointment, Integ
 		if (entity.getHour() >= doctor.getAttentionStartTime() && entity.getHour() <= doctor.getAttentionEndTime()) {
 			return super.save(entity);
 		}
-		//BiPredicate<Appointment, Doctor> hourValidation = (appointment, doc) -> appointment.getHour() >= doc.getAttentionStartTime()
-		//		&& appointment.getHour() <= doc.getAttentionStartTime();
-		//if (hourValidation.test(entity, doctor)) {
-			//return super.save(entity);
-		//}
 		return null;
 	}
 

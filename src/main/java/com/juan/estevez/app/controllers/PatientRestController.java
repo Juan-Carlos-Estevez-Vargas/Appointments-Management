@@ -54,8 +54,9 @@ public class PatientRestController {
 	 */
 	@PostMapping
 	public ResponseEntity<PatientDTO> save(@RequestBody PatientDTO patientDto) {
+		//patientService.save(modelMapper.map(patientDto, Patient.class)modelMapper.map()
 		return new ResponseEntity<>(
-				modelMapper.map(patientService.save(modelMapper.map(patientDto, Patient.class)), PatientDTO.class),
+				patientDto,
 				HttpStatus.OK);
 	}
 
