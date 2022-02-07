@@ -24,9 +24,6 @@ class PatientDataJpaIT {
 	private TestRestTemplate testRestTemplate;
 	private IPatientService patientService;
 	
-	//@MockBean
-//	private IPatientService patientService;
-
 	@Autowired
 	public PatientDataJpaIT(TestRestTemplate testRestTemplate, IPatientService patientService) {
 		this.testRestTemplate = testRestTemplate;
