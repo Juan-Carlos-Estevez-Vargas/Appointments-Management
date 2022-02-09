@@ -11,23 +11,23 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import com.juan.estevez.app.entities.Doctor;
-import com.juan.estevez.app.services.IDoctorService;
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 class DoctorDataJpaIT {
 	
 	private TestRestTemplate testRestTemplate;
-	private IDoctorService doctorService;
+	private JdbcTemplate jdbcTemplate;
 
 	@Autowired
-	public DoctorDataJpaIT(TestRestTemplate testRestTemplate, IDoctorService doctorService) {
+	public DoctorDataJpaIT(TestRestTemplate testRestTemplate, JdbcTemplate jdbcTemplate) {
 		this.testRestTemplate = testRestTemplate;
-		this.doctorService = doctorService;
+		this.jdbcTemplate = jdbcTemplate;
 	}
 
 	@Test
@@ -36,23 +36,34 @@ class DoctorDataJpaIT {
 		HttpEntity<Doctor> request = new HttpEntity<>(createDoctor());
 		ResponseEntity<Doctor> response = testRestTemplate.exchange(
 				"http://localhost:8080/doctor", HttpMethod.POST, request, Doctor.class);
-		Doctor responseDatabase = doctorService.get(response.getBody().getIdDoctor());
-		assertThat(responseDatabase.getIdDoctor()).isNotEmpty();
-		assertEquals(response.getBody().getIdDoctor(), responseDatabase.getIdDoctor());
+
+		int responseDatabase = jdbcTemplate.update("SELECT * FROM DOCTOR WHERE ID_DOCTOR = ?",
+				response.getBody().getIdDoctor());
+
+		assertThat(responseDatabase).isNotNull().isNotNegative();
+		assertEquals(1, responseDatabase);
+		
 		assertThat(response.getBody().getIdDoctor()).isNotNull();
 		assertEquals("1010", response.getBody().getIdDoctor());
+		
 		assertThat(response.getBody().getDoctorsName()).isNotEmpty();
 		assertEquals("Doctor Test", response.getBody().getDoctorsName());
+		
 		assertThat(response.getBody().getIdType()).isNotEmpty();
 		assertEquals("CC", response.getBody().getIdType());
+		
 		assertThat(response.getBody().getNumberProfessionalCard()).isNotEmpty();
 		assertEquals("1111", response.getBody().getNumberProfessionalCard());
+		
 		assertThat(response.getBody().getYearsExperience()).isNotNegative();
 		assertEquals(1, response.getBody().getYearsExperience());
+		
 		assertThat(response.getBody().getSpecialty()).isNotEmpty();
 		assertEquals("Neurología", response.getBody().getSpecialty());
+		
 		assertThat(response.getBody().getAttentionStartTime()).isNotNegative();
 		assertEquals(8, response.getBody().getAttentionStartTime());
+		
 		assertThat(response.getBody().getAttentionEndTime()).isNotNegative();
 		assertEquals(18, response.getBody().getAttentionEndTime());
 	}
@@ -64,23 +75,34 @@ class DoctorDataJpaIT {
 		HttpEntity<Doctor> request = new HttpEntity<>(updateDoctor());
 		ResponseEntity<Doctor> response = testRestTemplate.exchange(
 				"http://localhost:8080/doctor", HttpMethod.PUT, request, Doctor.class);
-		Doctor responseDatabase = doctorService.get(response.getBody().getIdDoctor());
-		assertThat(responseDatabase.getIdDoctor()).isNotEmpty();
-		assertEquals(response.getBody().getIdDoctor(), responseDatabase.getIdDoctor());
+		
+		int responseDatabase = jdbcTemplate.update("SELECT * FROM DOCTOR WHERE ID_DOCTOR = ?",
+				response.getBody().getIdDoctor());
+
+		assertThat(responseDatabase).isNotNegative().isNotNull();
+		assertEquals(1, responseDatabase);		
+		
 		assertThat(response.getBody().getIdDoctor()).isNotNull();
 		assertEquals("101010", response.getBody().getIdDoctor());
+		
 		assertThat(response.getBody().getDoctorsName()).isNotEmpty();
 		assertEquals("Doctor Test Update", response.getBody().getDoctorsName());
+		
 		assertThat(response.getBody().getIdType()).isNotEmpty();
 		assertEquals("CC", response.getBody().getIdType());
+		
 		assertThat(response.getBody().getNumberProfessionalCard()).isNotEmpty();
 		assertEquals("1", response.getBody().getNumberProfessionalCard());
+		
 		assertThat(response.getBody().getYearsExperience()).isNotNegative();
 		assertEquals(3, response.getBody().getYearsExperience());
+		
 		assertThat(response.getBody().getSpecialty()).isNotEmpty();
 		assertEquals("Neurología", response.getBody().getSpecialty());
+		
 		assertThat(response.getBody().getAttentionStartTime()).isNotNegative();
 		assertEquals(6, response.getBody().getAttentionStartTime());
+		
 		assertThat(response.getBody().getAttentionEndTime()).isNotNegative();
 		assertEquals(18, response.getBody().getAttentionEndTime());
 	}
@@ -91,18 +113,28 @@ class DoctorDataJpaIT {
 	void getDoctor() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Doctor> request = new HttpEntity<Doctor>(headers);
+		
 		ResponseEntity<Doctor> response = testRestTemplate.exchange(
 				"http://localhost:8080/doctor/findById/101011",	HttpMethod.GET, request, Doctor.class);
-		Doctor responseDatabase1 = doctorService.get(response.getBody().getIdDoctor());
-		assertThat(responseDatabase1.getIdDoctor()).isNotEmpty();
-		assertEquals(response.getBody().getIdDoctor(), responseDatabase1.getIdDoctor());
+
+		int responseDatabase = jdbcTemplate.update("SELECT * FROM DOCTOR WHERE ID_DOCTOR = ?",
+				response.getBody().getIdDoctor());
+
+		assertThat(responseDatabase).isNotNegative().isNotNull();
+		assertEquals(1, responseDatabase);
+		
 		ResponseEntity<Doctor> response2 = testRestTemplate.exchange(
 				"http://localhost:8080/doctor/findById/101012",	HttpMethod.GET, request, Doctor.class);
-		Doctor responseDatabase2 = doctorService.get(response2.getBody().getIdDoctor());
-		assertThat(responseDatabase2.getIdDoctor()).isNotEmpty();
-		assertEquals(response2.getBody().getIdDoctor(), responseDatabase2.getIdDoctor());
+		
+		int responseDatabase2 = jdbcTemplate.update("SELECT * FROM DOCTOR WHERE ID_DOCTOR = ?",
+				response2.getBody().getIdDoctor());
+
+		assertThat(responseDatabase2).isNotNegative().isNotNull();
+		assertEquals(1, responseDatabase2);
+		
 		assertThat(response.getBody().getIdDoctor()).isNotNull();
 		assertEquals("101011", response.getBody().getIdDoctor());
+		
 		assertThat(response2.getBody().getIdDoctor()).isNotNull();
 		assertEquals("101012", response2.getBody().getIdDoctor());
 	}
@@ -112,10 +144,15 @@ class DoctorDataJpaIT {
 	void deleteDoctor() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Doctor> request = new HttpEntity<Doctor>(headers);
+		
 		ResponseEntity<Doctor> response = testRestTemplate.exchange(
 				"http://localhost:8080/doctor/112255", HttpMethod.DELETE, request, Doctor.class);
-		assertThat(response.getBody().getIdDoctor()).isNotNull();
-		assertEquals("112255", response.getBody().getIdDoctor());
+		
+		int responseDatabase = jdbcTemplate.update("SELECT * FROM DOCTOR WHERE ID_DOCTOR = ?",
+				response.getBody().getIdDoctor());
+
+		assertThat(responseDatabase).isNotNegative().isNotNull();
+		assertEquals(0, responseDatabase);
 	}
 
 	/**

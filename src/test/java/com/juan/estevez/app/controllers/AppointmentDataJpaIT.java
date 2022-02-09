@@ -11,21 +11,21 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import com.juan.estevez.app.entities.Appointment;
-import com.juan.estevez.app.services.IAppointmentService;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 class AppointmentDataJpaIT {
 	
 	private TestRestTemplate testRestTemplate;
-	private IAppointmentService appointmentService;
+	private JdbcTemplate jdbcTemplate;
 
 	@Autowired
-	public AppointmentDataJpaIT(TestRestTemplate testRestTemplate, IAppointmentService appointmentService) {
+	public AppointmentDataJpaIT(TestRestTemplate testRestTemplate, JdbcTemplate jdbcTemplate) {
 		this.testRestTemplate = testRestTemplate;
-		this.appointmentService = appointmentService;
+		this.jdbcTemplate = jdbcTemplate;
 	}
 
 	@Test
@@ -33,18 +33,26 @@ class AppointmentDataJpaIT {
 	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatientToPostAppointment.sql")
 	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanInsertAppointment.sql")
 	void postAppointment() {
+		
 		HttpEntity<Appointment> request = new HttpEntity<>(createAppointment());
 		ResponseEntity<Appointment> response = testRestTemplate.exchange(
 				"http://localhost:8080/appointment", HttpMethod.POST, request, Appointment.class);
-		Appointment responseDatabase = appointmentService.get(response.getBody().getIdAppointment());
-		assertThat(responseDatabase.getIdAppointment()).isNotNull();
-		assertEquals(response.getBody().getIdAppointment(), responseDatabase.getIdAppointment());
+		
+		int responseDatabase = jdbcTemplate.update("SELECT * FROM APPOINTMENT WHERE ID_APPOINTMENT = ?",
+				response.getBody().getIdAppointment());
+
+		assertThat(responseDatabase).isNotNull().isNotNegative();
+		assertEquals(1, responseDatabase);
+		
 		assertEquals(100, response.getBody().getIdAppointment());
 		assertThat(response.getBody().getDoctor()).isNotNull();
+		
 		assertEquals("100000", response.getBody().getDoctor());
 		assertThat(response.getBody().getPatient()).isNotNull();
+		
 		assertEquals("3030100", response.getBody().getPatient());
 		assertThat(response.getBody().getDate()).isNotNull();
+		
 		assertEquals("2022-10-11", response.getBody().getDate());
 		assertThat(response.getBody().getHour()).isNotNegative();
 		assertEquals(12, response.getBody().getHour());
@@ -59,15 +67,22 @@ class AppointmentDataJpaIT {
 		HttpEntity<Appointment> request = new HttpEntity<>(updateAppointment());
 		ResponseEntity<Appointment> response = testRestTemplate.exchange(
 				"http://localhost:8080/appointment", HttpMethod.PUT, request, Appointment.class);
-		Appointment responseDatabase = appointmentService.get(response.getBody().getIdAppointment());
-		assertThat(responseDatabase.getIdAppointment()).isNotNegative().isNotNull();
-		assertEquals(response.getBody().getIdAppointment(), responseDatabase.getIdAppointment());
+		
+		int responseDatabase = jdbcTemplate.update("SELECT * FROM APPOINTMENT WHERE ID_APPOINTMENT = ?",
+				response.getBody().getIdAppointment());
+
+		assertThat(responseDatabase).isNotNegative().isNotNull();
+		assertEquals(1, responseDatabase);
+		
 		assertEquals(1, response.getBody().getIdAppointment());
 		assertThat(response.getBody().getDoctor()).isNotNull();
+		
 		assertEquals("100001", response.getBody().getDoctor());
 		assertThat(response.getBody().getPatient()).isNotNull();
+		
 		assertEquals("33", response.getBody().getPatient());
 		assertThat(response.getBody().getDate()).isNotNull();
+		
 		assertEquals("2023-10-11", response.getBody().getDate());
 		assertThat(response.getBody().getHour()).isNotNegative();
 		assertEquals(14, response.getBody().getHour());
@@ -82,16 +97,25 @@ class AppointmentDataJpaIT {
 	void getAppointments() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Appointment> request = new HttpEntity<Appointment>(headers);
+		
 		ResponseEntity<Appointment> response = testRestTemplate.exchange(
 				"http://localhost:8080/appointment/findById/9",	HttpMethod.GET, request, Appointment.class);
-		Appointment responseDatabase1 = appointmentService.get(response.getBody().getIdAppointment());
-		assertThat(responseDatabase1.getIdAppointment()).isNotNegative().isNotNull();
-		assertEquals(response.getBody().getIdAppointment(), responseDatabase1.getIdAppointment());
+		
+		int responseDatabase = jdbcTemplate.update("SELECT * FROM APPOINTMENT WHERE ID_APPOINTMENT = ?",
+				response.getBody().getIdAppointment());
+
+		assertThat(responseDatabase).isNotNegative().isNotNull();
+		assertEquals(1, responseDatabase);
+
 		ResponseEntity<Appointment> response2 = testRestTemplate.exchange(
 				"http://localhost:8080/appointment/findById/8",	HttpMethod.GET, request, Appointment.class);
-		Appointment responseDatabase2 = appointmentService.get(response2.getBody().getIdAppointment());
-		assertThat(responseDatabase2.getIdAppointment()).isNotNegative().isNotNull();
-		assertEquals(response2.getBody().getIdAppointment(), responseDatabase2.getIdAppointment());
+		
+		int responseDatabase2 = jdbcTemplate.update("SELECT * FROM APPOINTMENT WHERE ID_APPOINTMENT = ?",
+				response2.getBody().getIdAppointment());
+
+		assertThat(responseDatabase2).isNotNegative().isNotNull();
+		assertEquals(1, responseDatabase2);
+		
 		assertEquals(9, response.getBody().getIdAppointment());
 		assertEquals(8, response2.getBody().getIdAppointment());
 	}
@@ -104,9 +128,15 @@ class AppointmentDataJpaIT {
 	void deleteAppointment() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Appointment> request = new HttpEntity<Appointment>(headers);
+		
 		ResponseEntity<Appointment> response = testRestTemplate.exchange(
 				"http://localhost:8080/appointment/14", HttpMethod.DELETE, request, Appointment.class);
-		assertEquals(14, response.getBody().getIdAppointment());
+		
+		int responseDatabase = jdbcTemplate.update("SELECT * FROM APPOINTMENT WHERE ID_APPOINTMENT = ?",
+				response.getBody().getIdAppointment());
+
+		assertThat(responseDatabase).isNotNegative().isNotNull();
+		assertEquals(0, responseDatabase);
 	}
 	
 	/**

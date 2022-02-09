@@ -11,44 +11,54 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import com.juan.estevez.app.entities.Patient;
-import com.juan.estevez.app.services.IPatientService;
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 class PatientDataJpaIT {
 
 	private TestRestTemplate testRestTemplate;
-	private IPatientService patientService;
-	
+	private JdbcTemplate jdbcTemplate;
+
 	@Autowired
-	public PatientDataJpaIT(TestRestTemplate testRestTemplate, IPatientService patientService) {
+	public PatientDataJpaIT(TestRestTemplate testRestTemplate, JdbcTemplate jdbcTemplate) {
 		this.testRestTemplate = testRestTemplate;
-		this.patientService = patientService;
+		this.jdbcTemplate = jdbcTemplate;
 	}
 
 	@Test
 	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanInsertPatient.sql")
 	void postPatient() {
+
 		HttpEntity<Patient> request = new HttpEntity<>(createPatient());
-		ResponseEntity<Patient> response = testRestTemplate.exchange(
-				"http://localhost:8080/patient", HttpMethod.POST, request, Patient.class);
-		Patient responseDatabase = patientService.get(response.getBody().getIdPatient());
-		assertThat(responseDatabase.getIdPatient()).isNotEmpty();
-		assertEquals(response.getBody().getIdPatient(), responseDatabase.getIdPatient());
+		ResponseEntity<Patient> response = testRestTemplate.exchange("http://localhost:8080/patient", HttpMethod.POST,
+				request, Patient.class);
+
+		int responseDatabase = jdbcTemplate.update("SELECT * FROM PATIENT WHERE ID_PATIENT = ?",
+				response.getBody().getIdPatient());
+
+		assertThat(responseDatabase).isNotNull().isNotNegative();
+		assertEquals(1, responseDatabase);
+
 		assertThat(response.getBody().getIdPatient()).isNotNull();
 		assertEquals("1829", response.getBody().getIdPatient());
+
 		assertThat(response.getBody().getName()).isNotEmpty();
 		assertEquals("Patient Test", response.getBody().getName());
+
 		assertThat(response.getBody().getIdType()).isNotEmpty();
 		assertEquals("CC", response.getBody().getIdType());
+
 		assertThat(response.getBody().getDateOfBirth()).isNotEmpty();
 		assertEquals("2001-05-08", response.getBody().getDateOfBirth());
+
 		assertThat(response.getBody().getEps()).isNotEmpty();
 		assertEquals("Nueva EPS Test", response.getBody().getEps());
+
 		assertThat(response.getBody().getClinicHistory()).isNotNull();
 		assertEquals("Ok Test", response.getBody().getClinicHistory());
 	}
@@ -57,22 +67,32 @@ class PatientDataJpaIT {
 	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatientToUpdate.sql")
 	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanPatientToUpdate.sql")
 	void putPatient() {
+
 		HttpEntity<Patient> request = new HttpEntity<>(updatePatient());
-		ResponseEntity<Patient> response = testRestTemplate.exchange(
-				"http://localhost:8080/patient", HttpMethod.PUT, request, Patient.class);
-		Patient responseDatabase = patientService.get(response.getBody().getIdPatient());
-		assertThat(responseDatabase.getIdPatient()).isNotEmpty();
-		assertEquals(response.getBody().getIdPatient(), responseDatabase.getIdPatient());
+		ResponseEntity<Patient> response = testRestTemplate.exchange("http://localhost:8080/patient", HttpMethod.PUT,
+				request, Patient.class);
+
+		int responseDatabase = jdbcTemplate.update("SELECT * FROM PATIENT WHERE ID_PATIENT = ?",
+				response.getBody().getIdPatient());
+
+		assertThat(responseDatabase).isNotNegative().isNotNull();
+		assertEquals(1, responseDatabase);
+
 		assertThat(response.getBody().getIdPatient()).isNotNull();
 		assertEquals("30", response.getBody().getIdPatient());
+
 		assertThat(response.getBody().getName()).isNotEmpty();
 		assertEquals("Name88", response.getBody().getName());
+
 		assertThat(response.getBody().getIdType()).isNotEmpty();
 		assertEquals("CC", response.getBody().getIdType());
+
 		assertThat(response.getBody().getDateOfBirth()).isNotEmpty();
 		assertEquals("2000-10-11", response.getBody().getDateOfBirth());
+
 		assertThat(response.getBody().getEps()).isNotEmpty();
 		assertEquals("Nueva EPS Test", response.getBody().getEps());
+
 		assertThat(response.getBody().getClinicHistory()).isNotNull();
 		assertEquals("Ok", response.getBody().getClinicHistory());
 	}
@@ -81,20 +101,31 @@ class PatientDataJpaIT {
 	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatients.sql")
 	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanPatients.sql")
 	void getPatient() {
+
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Patient> request = new HttpEntity<Patient>(headers);
-		ResponseEntity<Patient> response = testRestTemplate.exchange(
-				"http://localhost:8080/patient/findById/30302",	HttpMethod.GET, request, Patient.class);
-		Patient responseDatabase1 = patientService.get(response.getBody().getIdPatient());
-		assertThat(responseDatabase1.getIdPatient()).isNotEmpty();
-		assertEquals(response.getBody().getIdPatient(), responseDatabase1.getIdPatient());
-		ResponseEntity<Patient> response2 = testRestTemplate.exchange(
-				"http://localhost:8080/patient/findById/30303",	HttpMethod.GET, request, Patient.class);
-		Patient responseDatabase2 = patientService.get(response2.getBody().getIdPatient());
-		assertThat(responseDatabase2.getIdPatient()).isNotEmpty();
-		assertEquals(response2.getBody().getIdPatient(), responseDatabase2.getIdPatient());
+
+		ResponseEntity<Patient> response = testRestTemplate.exchange("http://localhost:8080/patient/findById/30302",
+				HttpMethod.GET, request, Patient.class);
+
+		int responseDatabase = jdbcTemplate.update("SELECT * FROM PATIENT WHERE ID_PATIENT = ?",
+				response.getBody().getIdPatient());
+
+		assertThat(responseDatabase).isNotNegative().isNotNull();
+		assertEquals(1, responseDatabase);
+
+		ResponseEntity<Patient> response2 = testRestTemplate.exchange("http://localhost:8080/patient/findById/30303",
+				HttpMethod.GET, request, Patient.class);
+
+		int responseDatabase2 = jdbcTemplate.update("SELECT * FROM PATIENT WHERE ID_PATIENT = ?",
+				response2.getBody().getIdPatient());
+
+		assertThat(responseDatabase2).isNotNegative().isNotNull();
+		assertEquals(1, responseDatabase2);
+
 		assertThat(response.getBody().getIdPatient()).isNotNull();
 		assertEquals("30302", response.getBody().getIdPatient());
+
 		assertThat(response2.getBody().getIdPatient()).isNotNull();
 		assertEquals("30303", response2.getBody().getIdPatient());
 	}
@@ -102,12 +133,18 @@ class PatientDataJpaIT {
 	@Test
 	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertPatientToDelete.sql")
 	void deletePatient() {
+
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<Patient> request = new HttpEntity<Patient>(headers);
-		ResponseEntity<Patient> response = testRestTemplate.exchange(
-				"http://localhost:8080/patient/30302", HttpMethod.DELETE, request, Patient.class);
-		assertThat(response.getBody().getIdPatient()).isNotNull();
-		assertEquals("30302", response.getBody().getIdPatient());
+		
+		ResponseEntity<Patient> response = testRestTemplate.exchange("http://localhost:8080/patient/30302",
+				HttpMethod.DELETE, request, Patient.class);
+
+		int responseDatabase = jdbcTemplate.update("SELECT * FROM PATIENT WHERE ID_PATIENT = ?",
+				response.getBody().getIdPatient());
+
+		assertThat(responseDatabase).isNotNegative().isNotNull();
+		assertEquals(0, responseDatabase);
 	}
 
 	/**
