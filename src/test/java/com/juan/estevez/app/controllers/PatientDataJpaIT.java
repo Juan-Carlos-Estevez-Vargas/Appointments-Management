@@ -41,7 +41,7 @@ class PatientDataJpaIT {
 		int responseDatabase = jdbcTemplate.update("SELECT * FROM PATIENT WHERE ID_PATIENT = ?",
 				response.getBody().getIdPatient());
 
-		assertThat(responseDatabase).isNotNull().isNotNegative();
+		assertThat(responseDatabase).isNotNegative();
 		assertEquals(1, responseDatabase);
 
 		assertThat(response.getBody().getIdPatient()).isNotNull();

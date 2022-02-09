@@ -41,7 +41,7 @@ class AppointmentDataJpaIT {
 		int responseDatabase = jdbcTemplate.update("SELECT * FROM APPOINTMENT WHERE ID_APPOINTMENT = ?",
 				response.getBody().getIdAppointment());
 
-		assertThat(responseDatabase).isNotNull().isNotNegative();
+		assertThat(responseDatabase).isNotNegative();
 		assertEquals(1, responseDatabase);
 		
 		assertEquals(100, response.getBody().getIdAppointment());

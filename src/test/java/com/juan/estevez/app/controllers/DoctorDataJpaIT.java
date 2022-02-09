@@ -40,7 +40,7 @@ class DoctorDataJpaIT {
 		int responseDatabase = jdbcTemplate.update("SELECT * FROM DOCTOR WHERE ID_DOCTOR = ?",
 				response.getBody().getIdDoctor());
 
-		assertThat(responseDatabase).isNotNull().isNotNegative();
+		assertThat(responseDatabase).isNotNegative();
 		assertEquals(1, responseDatabase);
 		
 		assertThat(response.getBody().getIdDoctor()).isNotNull();
