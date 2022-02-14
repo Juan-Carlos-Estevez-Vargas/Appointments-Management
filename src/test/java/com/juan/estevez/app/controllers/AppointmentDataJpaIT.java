@@ -44,18 +44,18 @@ class AppointmentDataJpaIT {
 		assertThat(responseDatabase).isNotNegative();
 		assertEquals(1, responseDatabase);
 		
-		assertEquals(100, response.getBody().getIdAppointment());
+		assertEquals(createAppointment().getIdAppointment(), response.getBody().getIdAppointment());
 		assertThat(response.getBody().getDoctor()).isNotNull();
 		
-		assertEquals("100000", response.getBody().getDoctor());
+		assertEquals(createAppointment().getDoctor(), response.getBody().getDoctor());
 		assertThat(response.getBody().getPatient()).isNotNull();
 		
-		assertEquals("3030100", response.getBody().getPatient());
+		assertEquals(createAppointment().getPatient(), response.getBody().getPatient());
 		assertThat(response.getBody().getDate()).isNotNull();
 		
-		assertEquals("2022-10-11", response.getBody().getDate());
+		assertEquals(createAppointment().getDate(), response.getBody().getDate());
 		assertThat(response.getBody().getHour()).isNotNegative();
-		assertEquals(12, response.getBody().getHour());
+		assertEquals(createAppointment().getHour(), response.getBody().getHour());
 	}
 	
 	@Test
@@ -74,18 +74,18 @@ class AppointmentDataJpaIT {
 		assertThat(responseDatabase).isNotNegative().isNotNull();
 		assertEquals(1, responseDatabase);
 		
-		assertEquals(1, response.getBody().getIdAppointment());
+		assertEquals(updateAppointment().getIdAppointment(), response.getBody().getIdAppointment());
 		assertThat(response.getBody().getDoctor()).isNotNull();
 		
-		assertEquals("100001", response.getBody().getDoctor());
+		assertEquals(updateAppointment().getDoctor(), response.getBody().getDoctor());
 		assertThat(response.getBody().getPatient()).isNotNull();
 		
-		assertEquals("33", response.getBody().getPatient());
+		assertEquals(updateAppointment().getPatient(), response.getBody().getPatient());
 		assertThat(response.getBody().getDate()).isNotNull();
 		
-		assertEquals("2023-10-11", response.getBody().getDate());
+		assertEquals(updateAppointment().getDate(), response.getBody().getDate());
 		assertThat(response.getBody().getHour()).isNotNegative();
-		assertEquals(14, response.getBody().getHour());
+		assertEquals(updateAppointment().getHour(), response.getBody().getHour());
 	}
 	
 	

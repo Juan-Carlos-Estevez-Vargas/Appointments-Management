@@ -45,22 +45,22 @@ class PatientDataJpaIT {
 		assertEquals(1, responseDatabase);
 
 		assertThat(response.getBody().getIdPatient()).isNotNull();
-		assertEquals("1829", response.getBody().getIdPatient());
+		assertEquals(createPatient().getIdPatient(), response.getBody().getIdPatient());
 
 		assertThat(response.getBody().getName()).isNotEmpty();
-		assertEquals("Patient Test", response.getBody().getName());
+		assertEquals(createPatient().getName(), response.getBody().getName());
 
 		assertThat(response.getBody().getIdType()).isNotEmpty();
-		assertEquals("CC", response.getBody().getIdType());
+		assertEquals(createPatient().getIdType(), response.getBody().getIdType());
 
 		assertThat(response.getBody().getDateOfBirth()).isNotEmpty();
-		assertEquals("2001-05-08", response.getBody().getDateOfBirth());
+		assertEquals(createPatient().getDateOfBirth(), response.getBody().getDateOfBirth());
 
 		assertThat(response.getBody().getEps()).isNotEmpty();
-		assertEquals("Nueva EPS Test", response.getBody().getEps());
+		assertEquals(createPatient().getEps(), response.getBody().getEps());
 
 		assertThat(response.getBody().getClinicHistory()).isNotNull();
-		assertEquals("Ok Test", response.getBody().getClinicHistory());
+		assertEquals(createPatient().getClinicHistory(), response.getBody().getClinicHistory());
 	}
 
 	@Test
@@ -79,22 +79,22 @@ class PatientDataJpaIT {
 		assertEquals(1, responseDatabase);
 
 		assertThat(response.getBody().getIdPatient()).isNotNull();
-		assertEquals("30", response.getBody().getIdPatient());
+		assertEquals(updatePatient().getIdPatient(), response.getBody().getIdPatient());
 
 		assertThat(response.getBody().getName()).isNotEmpty();
-		assertEquals("Name88", response.getBody().getName());
+		assertEquals(updatePatient().getName(), response.getBody().getName());
 
 		assertThat(response.getBody().getIdType()).isNotEmpty();
-		assertEquals("CC", response.getBody().getIdType());
+		assertEquals(updatePatient().getIdType(), response.getBody().getIdType());
 
 		assertThat(response.getBody().getDateOfBirth()).isNotEmpty();
-		assertEquals("2000-10-11", response.getBody().getDateOfBirth());
+		assertEquals(updatePatient().getDateOfBirth(), response.getBody().getDateOfBirth());
 
 		assertThat(response.getBody().getEps()).isNotEmpty();
-		assertEquals("Nueva EPS Test", response.getBody().getEps());
+		assertEquals(updatePatient().getEps(), response.getBody().getEps());
 
 		assertThat(response.getBody().getClinicHistory()).isNotNull();
-		assertEquals("Ok", response.getBody().getClinicHistory());
+		assertEquals(updatePatient().getClinicHistory(), response.getBody().getClinicHistory());
 	}
 
 	@Test
