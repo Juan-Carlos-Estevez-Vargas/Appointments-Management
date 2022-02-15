@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("classpath:dev.properties")
+@PropertySource("classpath:dev.yml")
 @Profile("dev")
 public class PropertiesSourceDev {
 

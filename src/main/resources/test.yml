@@ -1,0 +1,10 @@
+# Oracle Connection
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/orcl
+    username: juankEstevez
+    password: Poolsami1
+  jpa:
+    show-sql: true
+    hibernate.ddl-auto: update
+  sql.init.mode: always

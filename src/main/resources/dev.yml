@@ -6,13 +6,16 @@
 #spring.jpa.show-sql=true
 
 # Oracle Connection
-spring.datasource.url=jdbc:oracle:thin:@localhost:1521/orcl
-spring.datasource.username=juanEstevez
-spring.datasource.password=Poolsami1
-spring.jpa.show-sql=true
-spring.jpa.hibernate.ddl-auto=update
-spring.sql.init.mode=always
-
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/orcl
+    username: juanEstevez
+    password: oolsami1
+  jpa:
+    show-sql: true
+    hibernate.ddl-auto: update
+  sql.init.mode: always
+    
 # H2 Connection
 #spring.datasource.url=jdbc:h2:mem:quileia
 #spring.datasource.driverClassName=org.h2.Driver
