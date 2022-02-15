@@ -7,4 +7,5 @@ spring:
     show-sql: true
     hibernate.ddl-auto: update
   sql.init.mode: always
-  
+
+cors.path: http://localhost:4200
