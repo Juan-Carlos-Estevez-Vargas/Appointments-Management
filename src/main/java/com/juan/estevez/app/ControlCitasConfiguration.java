@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -15,10 +14,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class ControlCitasConfiguration {
-	
+
 	@Value("${cors.path}")
 	String path;
-	//private Environment env;
 
 	@Bean
 	public ModelMapper modelMapper() {
@@ -27,16 +25,13 @@ public class ControlCitasConfiguration {
 
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
-		//String path = env.getProperty("cors.path");
-		
-		//String path = "http://localhost:4200";
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/patient/**").allowedOrigins(path)
-						.allowedMethods("GET", "POST", "PUT", "DELETE").maxAge(3600);
-				registry.addMapping("/doctor/**").allowedOrigins(path)
-						.allowedMethods("GET", "POST", "PUT", "DELETE").maxAge(3600);
+				registry.addMapping("/patient/**").allowedOrigins(path).allowedMethods("GET", "POST", "PUT", "DELETE")
+						.maxAge(3600);
+				registry.addMapping("/doctor/**").allowedOrigins(path).allowedMethods("GET", "POST", "PUT", "DELETE")
+						.maxAge(3600);
 				registry.addMapping("/appointment/**").allowedOrigins(path)
 						.allowedMethods("GET", "POST", "PUT", "DELETE").maxAge(3600);
 			}

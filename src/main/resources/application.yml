@@ -8,4 +8,4 @@ spring:
     hibernate.ddl-auto: update
   sql.init.mode: always
 
-cors.path: http://localhost:4200
+cors.path: http://localhost
