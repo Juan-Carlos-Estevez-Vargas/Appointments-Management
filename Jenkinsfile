@@ -3,7 +3,7 @@ node {
     stage('Preparation') { // for display purposes
         // Get some code from a GitHub repository
         git 'https://gitlab.com/Juan-Carlos-Estevez-Vargas/Check-Appointments-Spring-Boot.git'
-        mvnHome = tool 'M2_HOME'
+        mvnHome = tool 'MAVEN_HOME'
     }
     stage('Validate') {
         // Run the maven build
