@@ -1,10 +1,13 @@
 node {
+
     def mvnHome
+
     stage('Preparation') { // for display purposes
         // Get some code from a GitHub repository
         git 'https://gitlab.com/Juan-Carlos-Estevez-Vargas/Check-Appointments-Spring-Boot.git'
         mvnHome = tool 'MAVEN_HOME'
     }
+
     stage('Validate') {
         // Run the maven build
         withEnv(["MVN_HOME=$mvnHome"]) {
@@ -15,6 +18,7 @@ node {
             }
         }
     }
+
     stage('Compile') {
         // Run the maven build
         withEnv(["MVN_HOME=$mvnHome"]) {
@@ -25,6 +29,7 @@ node {
             }
         }
     }
+
     stage('Test Compile') {
         // Run the maven build
         withEnv(["MVN_HOME=$mvnHome"]) {
@@ -35,6 +40,7 @@ node {
             }
         }
     }
+
     stage('Test') {
         // Run the maven build
         withEnv(["MVN_HOME=$mvnHome"]) {
@@ -45,6 +51,7 @@ node {
             }
         }
     }
+
     stage('Package') {
         // Run the maven build
         withEnv(["MVN_HOME=$mvnHome"]) {
@@ -55,6 +62,7 @@ node {
             }
         }
     }
+
     stage('Integration Tests') {
         // Run the maven build
         withEnv(["MVN_HOME=$mvnHome"]) {
@@ -65,6 +73,7 @@ node {
             }
         }
     }
+
     stage('Install') {
         // Run the maven build
         withEnv(["MVN_HOME=$mvnHome"]) {
@@ -75,4 +84,5 @@ node {
             }
         }
     }
+    
 }
