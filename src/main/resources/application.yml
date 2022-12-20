@@ -18,4 +18,5 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
-cors.path: http://localhost
+cors:
+  path: http://localhost:4200
