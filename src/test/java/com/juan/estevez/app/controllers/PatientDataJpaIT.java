@@ -18,7 +18,7 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import com.juan.estevez.app.entities.Patient;
 
 @ActiveProfiles("test")
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class PatientDataJpaIT {
 
 	private TestRestTemplate testRestTemplate;

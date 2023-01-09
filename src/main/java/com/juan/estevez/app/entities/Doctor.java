@@ -25,15 +25,15 @@ public class Doctor implements Serializable{
 	private String numberProfessionalCard;
 	
 	@Column(name = "YEARS_EXPERIENCE")
-	private double yearsExperience;
+	private int yearsExperience;
 	
 	@Column(name = "SPECIALTY")
 	private String specialty;
 	
 	@Column(name = "ATTENTION_START_TIME")
-	private int attentionStartTime;
+	private double attentionStartTime;
 	
 	@Column(name = "ATTENTION_END_TIME")
-	private int attentionEndTime;
+	private double attentionEndTime;
 
 }
