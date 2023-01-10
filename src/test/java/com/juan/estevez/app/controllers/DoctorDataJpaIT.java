@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,14 +36,15 @@ class DoctorDataJpaIT {
 	}
 
 	@Test
+	@DisplayName("Integration test to insert a Doctor for a end point")
 	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanDoctorToInsert.sql")
 	void postDoctor() {
 		HttpEntity<Doctor> request = new HttpEntity<>(createDoctor());
 		ResponseEntity<Doctor> response = testRestTemplate.exchange("http://localhost:8080/doctor", HttpMethod.POST,
 				request, Doctor.class);
 
-		List<Map<String, Object>> responseDatabase = jdbcTemplate
-				.queryForList("SELECT * FROM DOCTOR WHERE ID_DOCTOR = ?", response.getBody().getIdDoctor());
+		List<Map<String, Object>> responseDatabase = jdbcTemplate.queryForList(
+				"SELECT * FROM DOCTOR WHERE ID_DOCTOR = ?", response.getBody().getIdDoctor());
 
 		assertThat(responseDatabase.size()).isNotNegative().isNotNull();
 		assertThat(!responseDatabase.isEmpty());
@@ -115,6 +117,7 @@ class DoctorDataJpaIT {
 	}
 
 	@Test
+	@DisplayName("Integration test to update a Doctor for a end point")
 	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertDoctorToUpdate.sql")
 	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanDoctorToUpdate.sql")
 	void putDoctor() {
@@ -182,6 +185,7 @@ class DoctorDataJpaIT {
 	}
 
 	@Test
+	@DisplayName("Integration test to get a Doctor by id for a end point")
 	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertDoctorsToGet.sql")
 	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "cleanDoctorsToGet.sql")
 	void getDoctor() {
@@ -241,6 +245,7 @@ class DoctorDataJpaIT {
 	}
 
 	@Test
+	@DisplayName("Integration test to delete a Doctor by id for a end point")
 	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "insertDoctorToDelete.sql")
 	void deleteDoctor() {
 		HttpHeaders headers = new HttpHeaders();

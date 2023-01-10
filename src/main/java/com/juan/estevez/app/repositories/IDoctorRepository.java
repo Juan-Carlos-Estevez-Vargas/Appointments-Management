@@ -1,6 +1,6 @@
 package com.juan.estevez.app.repositories;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import com.juan.estevez.app.entities.Doctor;
 
 /**
@@ -9,5 +9,5 @@ import com.juan.estevez.app.entities.Doctor;
  * 
  * @author Juan Carlos Estevez Vargas.
  */
-public interface IDoctorRepository extends CrudRepository<Doctor, String> {
+public interface IDoctorRepository extends JpaRepository<Doctor, String> {
 }
