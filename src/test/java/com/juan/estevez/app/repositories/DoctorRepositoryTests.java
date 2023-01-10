@@ -32,7 +32,6 @@ public class DoctorRepositoryTests {
 		doctor.setSpecialty("Cardiología");
 		doctor.setAttentionStartTime(8.0);
 		doctor.setAttentionEndTime(16.0);
-
 	}
 
 	@Test
