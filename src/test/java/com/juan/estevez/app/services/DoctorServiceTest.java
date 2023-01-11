@@ -10,6 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.Collections;
 import java.util.List;
@@ -124,17 +127,17 @@ public class DoctorServiceTest {
 		assertThat(doctorUpdated.getSpecialty()).isEqualTo("Specialty from unit test");
 	}
 	
-	/*@Test
+	@Test
 	@DisplayName("Test to delete a Doctor by ID from Service")
 	void testToDeleteDoctor() {
 		// given
 		String id = doctor.getIdDoctor();
-		given(doctorRepository.save(doctor)).willReturn(doctor);
+		willDoNothing().given(doctorRepository).deleteById(id);;
 		
 		// when
 		doctorService.delete(id);
 		
 		// then
 		verify(doctorRepository,times(1)).deleteById(id);;
-	}*/
+	}
 }
