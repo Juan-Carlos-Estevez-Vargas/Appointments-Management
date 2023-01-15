@@ -56,7 +56,7 @@ public class AppointmentMockMvcIT {
 	}
 	
 	@Test
-	@DisplayName("Test to Insert a Appointment from Controller")
+	@DisplayName("Test to Insert an Appointment from Controller")
 	void testSavePatient() throws Exception {
 		// given
 		given(appointmentService.save(any(Appointment.class)))
