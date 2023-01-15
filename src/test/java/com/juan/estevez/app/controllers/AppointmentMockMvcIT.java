@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.juan.estevez.app.entities.Appointment;
-import com.juan.estevez.app.entities.Patient;
 import com.juan.estevez.app.services.IAppointmentService;
-import com.juan.estevez.app.services.IPatientService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -44,17 +43,22 @@ public class AppointmentMockMvcIT {
 	@Autowired
 	private ObjectMapper objectMapper;
 	
-	@Test
-	@DisplayName("Test to Insert a Patient from Controller")
-	void testSavePatient() throws Exception {
-		// given
-		Appointment appointment = new Appointment();
+	private Appointment appointment;
+	
+	@BeforeEach
+	void init() {
+		appointment = new Appointment();
 		appointment.setIdAppointment(200);
 		appointment.setDoctor("900");
 		appointment.setPatient("3300");
 		appointment.setDate("2023-10-12");
 		appointment.setHour(12);
-
+	}
+	
+	@Test
+	@DisplayName("Test to Insert a Appointment from Controller")
+	void testSavePatient() throws Exception {
+		// given
 		given(appointmentService.save(any(Appointment.class)))
 				.willAnswer((invocation) -> invocation.getArgument(0));
 
@@ -71,7 +75,7 @@ public class AppointmentMockMvcIT {
 	}
 
 	@Test
-	@DisplayName("Test to get a Patients List from Controller")
+	@DisplayName("Test to get an Appointments List from Controller")
 	void testListPatients() throws Exception {
 		// given
 		List<Appointment> appointmentList = new ArrayList<>();
@@ -91,16 +95,9 @@ public class AppointmentMockMvcIT {
 	}
 
 	@Test
-	@DisplayName("Test to get a Patient by ID from Controller")
+	@DisplayName("Test to get an Appointment by ID from Controller")
 	void testGetPatientById() throws Exception {
 		// given
-		Appointment appointment = new Appointment();
-		appointment.setIdAppointment(200);
-		appointment.setDoctor("900");
-		appointment.setPatient("3300");
-		appointment.setDate("2023-10-12");
-		appointment.setHour(12);
-
 		given(appointmentService.get(appointment.getIdAppointment())).willReturn(appointment);
 
 		// when
@@ -112,57 +109,44 @@ public class AppointmentMockMvcIT {
 				.andExpect(jsonPath("$.patient", is(appointment.getPatient())));
 	}
 
-	/*@Test
-	@DisplayName("Test to update a Patient from Controller")
+	@Test
+	@DisplayName("Test to update an Appointment from Controller")
 	void testUpdatePatient() throws JsonProcessingException, Exception {
 		// given
-		Patient patientSaved = new Patient();
-		patientSaved.setIdPatient("9000");
-		patientSaved.setName("Patient Unit Test Controller");
-		patientSaved.setIdType("CC");
-		patientSaved.setDateOfBirth("2000-10-09");
-		patientSaved.setEps("EPS test");
-		patientSaved.setClinicHistory("OK");
+		Appointment appointmentUpdated = new Appointment();
+		appointmentUpdated.setIdAppointment(200);
+		appointmentUpdated.setDoctor("900");
+		appointmentUpdated.setPatient("3300");
+		appointmentUpdated.setDate("2024-10-12");
+		appointmentUpdated.setHour(14);
 
-		Patient patientUpdated = new Patient();
-		patientUpdated.setIdPatient("9000");
-		patientUpdated.setName("Patient Updated Unit Test Controller");
-		patientUpdated.setIdType("CC");
-		patientUpdated.setDateOfBirth("2000-10-09");
-		patientUpdated.setEps("EPS test Update");
-		patientUpdated.setClinicHistory("OK");
-
-		given(patientService.get(patientSaved.getIdPatient())).willReturn(patientSaved);
-		given(patientService.update(any(Patient.class))).willAnswer((invocation) -> invocation.getArgument(0));
+		given(appointmentService.get(appointmentUpdated.getIdAppointment()))
+				.willReturn(appointmentUpdated);
+		given(appointmentService.update(any(Appointment.class)))
+				.willAnswer((invocation) -> invocation.getArgument(0));
 
 		// when
-		ResultActions response = mockMvc.perform(put("/patient").contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(patientUpdated)));
+		ResultActions response = mockMvc.perform(put("/appointment")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(appointmentUpdated)));
 
 		// then
-		response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.name", is(patientUpdated.getName())))
-				.andExpect(jsonPath("$.eps", is(patientUpdated.getEps())));
+		response.andExpect(status().isOk()).andDo(print())
+				.andExpect(jsonPath("$.doctor", is(appointmentUpdated.getDoctor())))
+				.andExpect(jsonPath("$.patient", is(appointmentUpdated.getPatient())));
 	}
 
 	@Test
-	@DisplayName("Test to delete a Patient by ID from Controller")
+	@DisplayName("Test to delete an Appointment by ID from Controller")
 	void testDeletePatient() throws Exception {
 		// given
-		Patient patient = new Patient();
-		patient.setIdPatient("9000");
-		patient.setName("Patient Unit Test Controller");
-		patient.setIdType("CC");
-		patient.setDateOfBirth("2000-10-09");
-		patient.setEps("EPS test");
-		patient.setClinicHistory("OK");
-
-		given(patientService.get(patient.getIdPatient())).willReturn(patient);
+		given(appointmentService.get(appointment.getIdAppointment())).willReturn(appointment);
 
 		// when
-		ResultActions response = mockMvc.perform(delete("/patient/{idPatient}", patient.getIdPatient()));
+		ResultActions response = mockMvc.perform(delete("/appointment/{idAppointment}", appointment.getIdAppointment()));
 
 		// then
 		response.andExpect(status().isOk()).andDo(print());
-	}*/
+	}
 }
 
