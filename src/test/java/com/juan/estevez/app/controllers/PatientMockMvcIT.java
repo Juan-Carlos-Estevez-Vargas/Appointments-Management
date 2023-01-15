@@ -3,7 +3,6 @@ package com.juan.estevez.app.controllers;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -32,7 +31,7 @@ import com.juan.estevez.app.services.IPatientService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class PatientDataJpaIT {
+class PatientMockMvcIT {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -137,17 +136,24 @@ class PatientDataJpaIT {
 		response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.name", is(patientUpdated.getName())))
 				.andExpect(jsonPath("$.eps", is(patientUpdated.getEps())));
 	}
-	
+
 	@Test
 	@DisplayName("Test to delete a Patient by ID from Controller")
 	void testDeletePatient() throws Exception {
 		// given
-		String idPatient = "9000";
-		willDoNothing().given(patientService).delete(idPatient);;
-		
+		Patient patient = new Patient();
+		patient.setIdPatient("9000");
+		patient.setName("Patient Unit Test Controller");
+		patient.setIdType("CC");
+		patient.setDateOfBirth("2000-10-09");
+		patient.setEps("EPS test");
+		patient.setClinicHistory("OK");
+
+		given(patientService.get(patient.getIdPatient())).willReturn(patient);
+
 		// when
-		ResultActions response = mockMvc.perform(delete("/patient/{idPatient}", idPatient));
-		
+		ResultActions response = mockMvc.perform(delete("/patient/{idPatient}", patient.getIdPatient()));
+
 		// then
 		response.andExpect(status().isOk()).andDo(print());
 	}

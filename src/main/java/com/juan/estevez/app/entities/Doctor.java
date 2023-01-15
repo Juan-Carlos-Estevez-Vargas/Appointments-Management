@@ -3,6 +3,8 @@ package com.juan.estevez.app.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
 @Entity

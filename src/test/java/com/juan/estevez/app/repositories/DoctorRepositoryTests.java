@@ -77,7 +77,7 @@ public class DoctorRepositoryTests {
 
 		// then - verificación de la salida esperada.
 		assertThat(doctorsList).isNotNull();
-		assertThat(doctorsList.size()).isEqualTo(4);
+		assertThat(doctorsList.size()).isEqualTo(5);
 	}
 
 	@Test

@@ -11,9 +11,9 @@ public class DoctorDTO implements Serializable {
 	private String doctorsName;
 	private String idType;
 	private String numberProfessionalCard;
-	private double yearsExperience;
+	private int yearsExperience;
 	private String specialty;
-	private int attentionStartTime;
-	private int attentionEndTime;
+	private double attentionStartTime;
+	private double attentionEndTime;
 	
 }
