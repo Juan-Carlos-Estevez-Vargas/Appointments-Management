@@ -24,7 +24,7 @@ public class DoctorRepositoryTests {
 	@BeforeEach
 	void setup() {
 		doctor = new Doctor();
-		doctor.setIdDoctor("1010");
+		doctor.setIdDoctor("101010");
 		doctor.setDoctorsName("Doctor List Test");
 		doctor.setIdType("CC");
 		doctor.setNumberProfessionalCard("1111");
@@ -35,18 +35,9 @@ public class DoctorRepositoryTests {
 	}
 
 	@Test
-	@DisplayName("Test to save a Doctor.")
+	@DisplayName("Test to save a Doctor from Repository.")
 	void testSaveDoctor() {
 		// given - condición previa o configuración.
-		Doctor doctor = new Doctor();
-		doctor.setIdDoctor("101010");
-		doctor.setDoctorsName("Doctor Insert Test");
-		doctor.setIdType("CC");
-		doctor.setNumberProfessionalCard("1111");
-		doctor.setYearsExperience(4);
-		doctor.setSpecialty("Cardiología");
-		doctor.setAttentionStartTime(8.0);
-		doctor.setAttentionEndTime(16.0);
 
 		// when - acción o comportamiento a probar.
 		Doctor doctorGuardado = doctorRepository.save(doctor);
@@ -56,32 +47,22 @@ public class DoctorRepositoryTests {
 	}
 
 	@Test
-	@DisplayName("Test to List doctors.")
+	@DisplayName("Test to List doctors from Repository.")
 	void testListDoctors() {
 		// given - condición previa o configuración.
-		Doctor doctor1 = new Doctor();
-		doctor1.setIdDoctor("101010");
-		doctor1.setDoctorsName("Doctor List Test");
-		doctor1.setIdType("CC");
-		doctor1.setNumberProfessionalCard("1111");
-		doctor1.setYearsExperience(4);
-		doctor1.setSpecialty("Cardiología");
-		doctor1.setAttentionStartTime(8.0);
-		doctor1.setAttentionEndTime(16.0);
-
-		doctorRepository.save(doctor1);
 		doctorRepository.save(doctor);
+		doctorRepository.save(new Doctor("101010101", "Doctor List Test", "CC", "1111", 4, "Cardiología", 8.0, 16.0));
 
 		// when - acción o comportamiento a probar.
 		List<Doctor> doctorsList = doctorRepository.findAll();
 
 		// then - verificación de la salida esperada.
 		assertThat(doctorsList).isNotNull();
-		assertThat(doctorsList.size()).isEqualTo(5);
+		assertThat(doctorsList.size()).isEqualTo(3);
 	}
 
 	@Test
-	@DisplayName("Test to get a doctor by id")
+	@DisplayName("Test to get a doctor by id drom Repository.")
 	void testGetDoctorById() {
 		// given - condición previa o configuración.
 		doctorRepository.save(doctor);
@@ -94,36 +75,28 @@ public class DoctorRepositoryTests {
 	}
 
 	@Test
-	@DisplayName("Test to update a doctor.")
+	@DisplayName("Test to update a doctor from Repository.")
 	void testUpdateDoctor() {
 		// given - condición previa o configuración.
-		Doctor doctorToUpdate = new Doctor();
-		doctorToUpdate.setIdDoctor("101010");
-		doctorToUpdate.setDoctorsName("Doctor Update Test");
-		doctorToUpdate.setIdType("CC");
-		doctorToUpdate.setNumberProfessionalCard("1111");
-		doctorToUpdate.setYearsExperience(4);
-		doctorToUpdate.setSpecialty("Radiología");
-		doctorToUpdate.setAttentionStartTime(8.0);
-		doctorToUpdate.setAttentionEndTime(16.0);
+		doctor.setSpecialty("Neurología");
+		doctor.setAttentionStartTime(8.0);
 
 		// when - acción o comportamiento a probar.
-		Doctor doctorUpdated = doctorRepository.save(doctorToUpdate);
+		Doctor doctorUpdated = doctorRepository.save(doctor);
 
 		// then - verificación de la salida esperada.
 		assertThat(doctorUpdated).isNotNull();
-		assertThat(doctorUpdated.getDoctorsName()).isEqualTo("Doctor Update Test");
-		assertThat(doctorUpdated.getSpecialty()).isEqualTo("Radiología");
+		assertThat(doctorUpdated.getSpecialty()).isEqualTo("Neurología");
 	}
 
 	@Test
-	@DisplayName("Test to delete a doctor by id")
+	@DisplayName("Test to delete a doctor by id from Repository.")
 	void testDeleteDoctorById() {
 		// given - condición previa o configuración.
 		doctorRepository.save(doctor);
 
 		// when - acción o comportamiento a probar.
-		doctorRepository.deleteById(doctor.getIdDoctor());
+		doctorRepository.delete(doctor);
 		Optional<Doctor> doctorOptional = doctorRepository.findById(doctor.getIdDoctor());
 
 		// then - verificación de la salida esperada.

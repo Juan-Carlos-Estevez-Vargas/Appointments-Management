@@ -107,24 +107,21 @@ class PatientMockMvcIT {
 	@DisplayName("Test to update a Patient from Controller")
 	void testUpdatePatient() throws JsonProcessingException, Exception {
 		// given
-		Patient patientUpdated = new Patient();
-		patientUpdated.setIdPatient("9000");
-		patientUpdated.setName("Patient Updated Unit Test Controller");
-		patientUpdated.setIdType("CC");
-		patientUpdated.setDateOfBirth("2000-10-09");
-		patientUpdated.setEps("EPS test Update");
-		patientUpdated.setClinicHistory("OK");
+		patient.setName("Patient Updated Unit Test Controller");
+		patient.setEps("EPS test Update");
 
 		given(patientService.get(patient.getIdPatient())).willReturn(patient);
 		given(patientService.update(any(Patient.class))).willAnswer((invocation) -> invocation.getArgument(0));
 
 		// when
 		ResultActions response = mockMvc.perform(put("/patient").contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(patientUpdated)));
+				.content(objectMapper.writeValueAsString(patient)));
 
 		// then
-		response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.name", is(patientUpdated.getName())))
-				.andExpect(jsonPath("$.eps", is(patientUpdated.getEps())));
+		response.andExpect(status().isOk())
+				.andDo(print())
+				.andExpect(jsonPath("$.name", is(patient.getName())))
+				.andExpect(jsonPath("$.eps", is(patient.getEps())));
 	}
 
 	@Test

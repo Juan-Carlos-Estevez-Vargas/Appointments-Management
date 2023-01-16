@@ -2,9 +2,14 @@ package com.juan.estevez.app.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "DOCTOR")
 public class Doctor implements Serializable{

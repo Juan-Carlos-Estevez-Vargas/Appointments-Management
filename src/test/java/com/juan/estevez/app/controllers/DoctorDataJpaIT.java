@@ -253,7 +253,7 @@ class DoctorDataJpaIT {
 
 	private Doctor createDoctor() {
 		Doctor doctor = new Doctor();
-		doctor.setIdDoctor("1010");
+		doctor.setIdDoctor("123456");
 		doctor.setDoctorsName("Doctor Test");
 		doctor.setIdType("CC");
 		doctor.setNumberProfessionalCard("1111");

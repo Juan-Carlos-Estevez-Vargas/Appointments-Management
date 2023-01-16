@@ -57,7 +57,7 @@ public class AppointmentMockMvcIT {
 	
 	@Test
 	@DisplayName("Test to Insert an Appointment from Controller")
-	void testSavePatient() throws Exception {
+	void testSaveAppointment() throws Exception {
 		// given
 		given(appointmentService.save(any(Appointment.class)))
 				.willAnswer((invocation) -> invocation.getArgument(0));
@@ -76,7 +76,7 @@ public class AppointmentMockMvcIT {
 
 	@Test
 	@DisplayName("Test to get an Appointments List from Controller")
-	void testListPatients() throws Exception {
+	void testListAppointments() throws Exception {
 		// given
 		List<Appointment> appointmentList = new ArrayList<>();
 		appointmentList.add(new Appointment(12, "800", "34", "1999-10-10", 12));
@@ -96,7 +96,7 @@ public class AppointmentMockMvcIT {
 
 	@Test
 	@DisplayName("Test to get an Appointment by ID from Controller")
-	void testGetPatientById() throws Exception {
+	void testGetAppointmentById() throws Exception {
 		// given
 		given(appointmentService.get(appointment.getIdAppointment())).willReturn(appointment);
 
@@ -111,7 +111,7 @@ public class AppointmentMockMvcIT {
 
 	@Test
 	@DisplayName("Test to update an Appointment from Controller")
-	void testUpdatePatient() throws JsonProcessingException, Exception {
+	void testUpdateAppointment() throws JsonProcessingException, Exception {
 		// given
 		Appointment appointmentUpdated = new Appointment();
 		appointmentUpdated.setIdAppointment(200);
@@ -138,7 +138,7 @@ public class AppointmentMockMvcIT {
 
 	@Test
 	@DisplayName("Test to delete an Appointment by ID from Controller")
-	void testDeletePatient() throws Exception {
+	void testDeleteAppointment() throws Exception {
 		// given
 		given(appointmentService.get(appointment.getIdAppointment())).willReturn(appointment);
 
