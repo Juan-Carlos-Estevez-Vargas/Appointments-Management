@@ -20,3 +20,16 @@ spring:
     show-sql: true
 cors:
   path: http://localhost:4200
+ 
+# Swagger
+springdoc:
+  api-docs:
+    path: /open-api/api 
+  swagger-ui:
+    path: /open-api/swagger-ui-custom.html
+ 
+logging:
+  level:
+    org:
+      hibernate:
+        SQL : debug

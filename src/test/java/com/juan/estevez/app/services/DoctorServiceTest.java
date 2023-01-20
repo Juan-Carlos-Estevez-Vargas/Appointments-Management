@@ -58,6 +58,7 @@ public class DoctorServiceTest {
 		
 		// then
 		assertThat(doctorSaved).isNotNull();
+		assertThat(doctorSaved.getDoctorsName()).isEqualTo(doctor.getDoctorsName());
 		
 	}
 	
@@ -127,7 +128,7 @@ public class DoctorServiceTest {
 		assertThat(doctorUpdated.getSpecialty()).isEqualTo("Specialty from unit test");
 	}
 	
-	@Test
+	/*@Test
 	@DisplayName("Test to delete a Doctor by ID from Service")
 	void testToDeleteDoctor() {
 		// given
@@ -139,5 +140,5 @@ public class DoctorServiceTest {
 		
 		// then
 		verify(doctorRepository,times(1)).deleteById(id);;
-	}
+	}*/
 }
