@@ -33,3 +33,10 @@ logging:
     org:
       hibernate:
         SQL : debug
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
