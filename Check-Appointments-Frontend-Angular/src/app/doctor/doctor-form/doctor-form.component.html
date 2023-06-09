@@ -1,0 +1,191 @@
+<header>
+  <!--<app-nav-bar></app-nav-bar>-->
+  <section id="main-header" class="py-2 bg-info text-white">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h1><em class="fas fa-user-cog"></em> Doctors Control</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+</header>
+<section>
+  <div class="py-4 mb-4 bg-light" id="actions">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <a [routerLink]="['/doctor/findAll']" class="btn btn-light btn-block">
+            <em class="fas fa-arrow-left"></em> Back
+          </a>
+        </div>
+        <div class="col-md-3">
+          <button
+            class="btn btn-success btn-block"
+            role="button"
+            (click)="create()"
+            *ngIf="
+              !doctor.idDoctor &&
+                !doctor.doctorsName &&
+                !doctor.idType &&
+                !doctor.numberProfessionalCard &&
+                !doctor.yearsExperience &&
+                !doctor.specialty &&
+                !doctor.attentionStartTime &&
+                !doctor.attentionEndTime;
+              else elseBlock
+            "
+          >
+            <em class="fas fa-check"></em> Save
+          </button>
+          <ng-template #elseBlock>
+            <button class="btn btn-success" role="button" (click)="update()">
+              Update
+            </button>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <form>
+    <section>
+      <div id="details">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <div class="card col-md-10">
+                <div class="card-header">
+                  <h4>Edit Doctor</h4>
+                </div>
+                <div class="card-body">
+                  <div class="form-group row">
+                    <label for="id" class="col-form-label col-md-3"
+                      >ID Doctor</label
+                    >
+                    <div class="col-sm-6">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="id"
+                        required="true"
+                        [(ngModel)]="doctor.idDoctor"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="name" class="col-form-label col-md-3"
+                      >Name</label
+                    >
+                    <div class="col-sm-6">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="name"
+                        required
+                        [(ngModel)]="doctor.doctorsName"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="idType" class="col-form-label col-md-3"
+                      >ID Type</label
+                    >
+                    <div class="col-sm-6">
+                      <select
+                        required
+                        name="idType"
+                        class="form-control"
+                        [(ngModel)]="doctor.idType"
+                      >
+                        <option value="CC">CC</option>
+                        <option value="TI">TI</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label
+                      for="numberProfessionalCard"
+                      class="col-form-label col-md-3"
+                      ># Professional Card</label
+                    >
+                    <div class="col-sm-6">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="numberProfessionalCard"
+                        required="true"
+                        [(ngModel)]="doctor.numberProfessionalCard"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="yearsExperience" class="col-form-label col-sm-3"
+                      >Years Experience</label
+                    >
+                    <div class="col-sm-6">
+                      <input
+                        type="number"
+                        class="form-control"
+                        name="yearsExperience"
+                        required="true"
+                        [(ngModel)]="doctor.yearsExperience"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="specialty" class="col-form-label col-md-3"
+                      >Specialty</label
+                    >
+                    <div class="col-sm-6">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="specialty"
+                        required="true"
+                        [(ngModel)]="doctor.specialty"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label
+                      for="attentionStartTime"
+                      class="col-form-label col-md-3"
+                      >Attention Start Time</label
+                    >
+                    <div class="col-sm-6">
+                      <input
+                        type="number"
+                        class="form-control"
+                        name="attentionStartTime"
+                        required="true"
+                        [(ngModel)]="doctor.attentionStartTime"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label
+                      for="attentionEndTime"
+                      class="col-form-label col-md-3"
+                      >Attention End Time</label
+                    >
+                    <div class="col-sm-6">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="attentionEndTime"
+                        required="true"
+                        [(ngModel)]="doctor.attentionEndTime"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </form>
+</section>

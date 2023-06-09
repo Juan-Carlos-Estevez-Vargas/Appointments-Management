@@ -1,0 +1,144 @@
+<header>
+  <!--<app-nav-bar></app-nav-bar>-->
+  <section id="main-header" class="py-2 bg-info text-white">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h1><em class="fas fa-user-cog"></em> Patients Control</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+</header>
+<section>
+  <div class="py-4 mb-4 bg-light" id="actions">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <a
+            [routerLink]="['/patient/findAll']"
+            class="btn btn-light btn-block"
+          >
+            <em class="fas fa-arrow-left"></em> Back
+          </a>
+        </div>
+        <div class="col-md-3">
+          <button
+            class="btn btn-success btn-block"
+            role="button"
+            (click)="create()"
+            *ngIf="!patient.idPatient; else elseBlock"
+          >
+            <em class="fas fa-check"></em> Save
+          </button>
+          <ng-template #elseBlock>
+            <button class="btn btn-success" role="button" (click)="update()">
+              Update
+            </button>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <form>
+    <section>
+      <div id="details">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <div class="card col-md-10">
+                <div class="card-header">
+                  <h4>Edit Patient</h4>
+                </div>
+                <div class="card-body">
+                  <div class="form-group row">
+                    <label for="id" class="col-form-label col-md-3"
+                      >ID Patient</label
+                    >
+                    <div class="col-sm-6">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="id"
+                        [(ngModel)]="patient.idPatient"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="name" class="col-form-label col-md-3"
+                      >Name</label
+                    >
+                    <div class="col-sm-6">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="name"
+                        [(ngModel)]="patient.name"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="dateOfBirth" class="col-form-label col-md-3"
+                      >Date Of Birth</label
+                    >
+                    <div class="col-sm-6">
+                      <input
+                        type="date"
+                        class="form-control"
+                        name="dateOfBirth"
+                        [(ngModel)]="patient.dateOfBirth"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="idType" class="col-form-label col-md-3"
+                      >ID Type</label
+                    >
+                    <div class="col-sm-6">
+                      <select
+                        required
+                        name="idType"
+                        class="form-control"
+                        [(ngModel)]="patient.idType"
+                      >
+                        <option value="CC">CC</option>
+                        <option value="TI">TI</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="eps" class="col-form-label col-sm-3">EPS</label>
+                    <div class="col-sm-6">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="eps"
+                        [(ngModel)]="patient.eps"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="clinicHistory" class="col-form-label col-md-3"
+                      >Clinic History</label
+                    >
+                    <div class="col-sm-6">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="clinicHistory"
+                        [(ngModel)]="patient.clinicHistory"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </form>
+</section>

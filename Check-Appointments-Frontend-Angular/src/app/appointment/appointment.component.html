@@ -1,0 +1,118 @@
+<body>
+  <header>
+    <!--<app-nav-bar></app-nav-bar>-->
+    <section id="main-header" class="py-2 bg-info text-white">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h1><em class="fas fa-user-cog"></em> Appointments Control</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+  </header>
+  <section class="py-4 mb-4 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <a [routerLink]="['/']" class="btn btn-light btn-block">
+            <em class="fas fa-arrow-left"></em> Back
+          </a>
+        </div>
+        <div class="col-md-3">
+          <a
+            href="#"
+            class="btn btn-primary btn-block"
+            data-toggle="modal"
+            data-target="#addDoctor"
+            [routerLink]="['/appointment']"
+          >
+            <em class="fas fa-plus"></em> Add Appointment
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="appointments">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="card">
+            <div class="card-header">
+              <h4>Appointments List</h4>
+            </div>
+            <div>
+              <table class="table table-stryped">
+                <caption>
+                  Appointments List
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Doctor</th>
+                    <th scope="col">Patient</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Hour</th>
+                    <th scope="col" colspan="2">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let appointment of appointments">
+                    <th scope="row">{{ appointment.idAppointment }}</th>
+                    <td>{{ appointment.doctor }}</td>
+                    <td>{{ appointment.patient }}</td>
+                    <td>{{ appointment.date }}</td>
+                    <td>{{ appointment.hour }}</td>
+                    <td>
+                      <button
+                        type="button"
+                        name="button"
+                        class="btn btn-primary"
+                        [routerLink]="[
+                          '/appointment',
+                          appointment.idAppointment
+                        ]"
+                      >
+                        <em class="fas fa-angle-double-right"></em> Edit
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        class="btn btn-danger"
+                        (click)="delete(appointment)"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          class="bi bi-trash3"
+                          viewBox="0 0 16 16"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M6.5 1a.5.5 0 0 0-.5.5v1h4v-1a.5.5 0 0 0-.5-.5h-3ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1H3.042l.846 10.58a1 1 0 0 0 .997.92h6.23a1 1 0 0 0 .997-.92l.846-10.58Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"
+                          />
+                        </svg>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center bg-success text-white mb-3">
+            <div class="card-body">
+              <h3>Total Appointments</h3>
+              <h4 class="display-4">
+                <em class="fas fa-users"></em>
+              </h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>

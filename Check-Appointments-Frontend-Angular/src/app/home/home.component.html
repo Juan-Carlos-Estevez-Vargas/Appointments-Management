@@ -1,0 +1,93 @@
+<header>
+  <app-nav-bar></app-nav-bar>
+</header>
+
+<div class="col-md-3"></div>
+<body>
+  <div class="container">
+    <!-- Show Case -->
+    <header class="showcase">
+      <h2>QUILEIA</h2>
+      <p>
+        It is responsible for carrying out all kinds of computer systems
+        development activities (planning, analysis, design, programming,
+        testing.
+      </p>
+      <a [routerLink]="['/about']" class="btn"
+        >Show More<em class="fas fa-angle.double.right"></em
+      ></a>
+    </header>
+
+    <!-- News Cards-->
+    <div class="news-cards">
+      <div>
+        <img src="../assets/img/Patient.jpg" alt="Patients" />
+        <h3>Lorem, ipsum dolor.</h3>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, in
+          aperiam. Magnam sit mollitia tempora soluta, quo nobis? Deserunt,
+          repellendus.
+        </p>
+        <button
+          type="button"
+          name="button"
+          class="btn btn-primary"
+          [routerLink]="['/patient/findAll']"
+        >
+          <em class="fas fa-angle-double-right"></em> Patients
+        </button>
+      </div>
+
+      <div>
+        <img src="../../assets/img/Doctor.jpg" alt="Doctors" />
+        <h3>Lorem, ipsum dolor.</h3>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, in
+          aperiam. Magnam sit mollitia tempora soluta, quo nobis? Deserunt,
+          repellendus.
+        </p>
+        <button
+          type="button"
+          name="button"
+          class="btn btn-primary"
+          [routerLink]="['/doctor/findAll']"
+        >
+          <em class="fas fa-angle-double-right"></em> Doctors
+        </button>
+      </div>
+
+      <div>
+        <img src="../../assets/img/Appointments.jpg" alt="Appointments" />
+        <h3>Lorem, ipsum dolor.</h3>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, in
+          aperiam. Magnam sit mollitia tempora soluta, quo nobis? Deserunt,
+          repellendus.
+        </p>
+        <button
+          type="button"
+          name="button"
+          class="btn btn-primary"
+          [routerLink]="['/appointment/findAll']"
+        >
+          <em class="fas fa-angle-double-right"></em> Appointments
+        </button>
+      </div>
+    </div>
+
+    <section class="cards-banner-two">
+      <div class="content">
+        <h2>Lorem, ipsum dolor.</h2>
+        <p>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam non
+          reprehenderit modi, odio alias illum veritatis atque cum provident
+          eaque.
+        </p>
+        <a href="#" class="btn"
+          >Contact Us ! <em class="fas fa-angle-double-right"></em
+        ></a>
+      </div>
+    </section>
+  </div>
+  <app-footer></app-footer>
+</body>
